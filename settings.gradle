@@ -1,0 +1,3 @@
+rootProject.name = 'seckill-3th'
+include 'core'
+
