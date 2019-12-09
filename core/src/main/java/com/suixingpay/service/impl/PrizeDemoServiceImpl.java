@@ -1,6 +1,6 @@
 package com.suixingpay.service.impl;
 
-import com.suixingpay.service.PrizeService;
+import com.suixingpay.service.PrizeDemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Service
 @Slf4j
-public class PrizeServiceImpl implements PrizeService {
+public class PrizeDemoServiceImpl implements PrizeDemoService {
 
     // 奖池名
     private static final String PRIZE_POOL = "prize:pool";

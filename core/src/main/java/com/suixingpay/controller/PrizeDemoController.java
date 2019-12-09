@@ -2,7 +2,7 @@ package com.suixingpay.controller;
 
 import com.suixingpay.enumeration.CodeEnum;
 import com.suixingpay.response.Response;
-import com.suixingpay.service.PrizeService;
+import com.suixingpay.service.PrizeDemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +18,17 @@ import java.util.Map;
  * @Date: 2019/12/9
  */
 @RestController
-@RequestMapping("/prize")
+@RequestMapping("/prize-demo")
 @Slf4j
-public class PrizeController {
+public class PrizeDemoController {
 
     @Autowired
-    private PrizeService prizeService;
+    private PrizeDemoService prizeDemoService;
 
     @RequestMapping("/rob")
     @ResponseBody
     public Response robPrize(@RequestParam("activityId") String activityId) {
-        String prizeResult = prizeService.robPrizeDemo(1, 1);
+        String prizeResult = prizeDemoService.robPrizeDemo(1, 1);
 //        String hello = "hello kongjian";
         int prizeId = Integer.parseInt(prizeResult);
         log.error(prizeResult);

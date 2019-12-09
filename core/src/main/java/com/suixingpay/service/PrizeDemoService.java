@@ -5,6 +5,6 @@ package com.suixingpay.service;
  * @Date: 2019/12/9
  */
 
-public interface PrizeService {
+public interface PrizeDemoService {
     String robPrizeDemo(Integer activityId, Integer userId);
 }
