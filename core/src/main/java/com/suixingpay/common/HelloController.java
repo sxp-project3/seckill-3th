@@ -26,7 +26,7 @@ public class HelloController {
     }
 
     @RequestMapping("hi-redis")
-    public Book hellion() {
+    public Book helloR0() {
 
         Book book = new Book();
         book.setId(1);
@@ -35,6 +35,12 @@ public class HelloController {
 
         redisTemplate.opsForValue().set("2", book);
         return (Book) redisTemplate.opsForValue().get("2");
+    }
+
+    @RequestMapping("hi-redis-1")
+    public boolean helloR1() {
+        redisTemplate.opsForSet().add("id1", 1111);
+        return redisTemplate.opsForSet().isMember("id1", 1111);
     }
 
 }
