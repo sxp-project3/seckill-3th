@@ -1,7 +1,9 @@
 package com.suixingpay.controller;
 
 import com.suixingpay.enumeration.CodeEnum;
+import com.suixingpay.pojo.Manager;
 import com.suixingpay.response.Response;
+import com.suixingpay.service.ManagerService;
 import com.suixingpay.service.PrizeDemoService;
 import com.suixingpay.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class PrizeDemoController {
     private PrizeDemoService prizeDemoService;
 
     @Autowired
+    private ManagerService managerService;
+
+    @Autowired
     private UserService userService;
 
     @RequestMapping("/rob")
@@ -42,6 +47,16 @@ public class PrizeDemoController {
         // log.error(prizeResult);
         Map<String, Object> result = new HashMap<>();
         result.put("list", prizeResult);
+        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
+        return response;
+    }
+
+    @RequestMapping("/rob-demo")
+    @ResponseBody
+    public Response robPrizeDemo() {
+        Manager manager = managerService.searchManagerById(1001);
+        Map<String, Object> result = new HashMap<>();
+        result.put("manager", manager);
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;
     }
