@@ -8,6 +8,7 @@ import com.suixingpay.service.ActiveService;
 import com.suixingpay.service.ManagerService;
 import com.suixingpay.service.PrizeDemoService;
 import com.suixingpay.service.UserService;
+import com.suixingpay.util.SecKillHttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,13 +44,19 @@ public class PrizeDemoController {
     @Autowired
     private ActiveService activeService;
 
+    @Autowired
+    private SecKillHttpUtil secKillHttpUtil;
+
     @RequestMapping("/rob-demo")
     @ResponseBody
     public Response robPrizeDemo(@RequestParam(value = "activityId") String activityStringId) {
-
+        String userStringId = secKillHttpUtil.getToken("token");
+        Integer userId = Integer.parseInt(userStringId);
+        // log.info("userId:"+userId);
         Integer activityId = Integer.parseInt(activityStringId);
+        // log.info("activityId:"+activityId);
         // 获取管家信息实体
-        Manager manager = managerService.searchManagerById(1001);
+        Manager manager = managerService.searchManagerById(userId);
         // 获取活动信息
         Active active = activeService.getOneById(activityId);
         // 获取当前系统时间
