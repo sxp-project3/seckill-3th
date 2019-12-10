@@ -71,8 +71,15 @@ public class PrizeDemoController {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = dateFormat.format(now);
+        Map<String, Object> prizeResult = null;
+        try {
+            prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
 
-        Map<String, Object> prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
+        } catch (RuntimeException e) {
+
+            log.info(e.getMessage());
+        }
+        // Map<String, Object> prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
 
         Map<String, Object> result = new HashMap<>();
         result.put("manager", manager);

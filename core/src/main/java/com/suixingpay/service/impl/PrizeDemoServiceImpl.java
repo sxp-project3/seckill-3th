@@ -34,19 +34,14 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
 
     @Override
     public Map robPrizeDemo(Active active, Manager manager, String nowDate) {
+
         String prize_pool_key = PRIZE_POOL + active.getId();
         String prize_member_list = PRIZE_MEMBER_LIST + active.getId();
-//
-        redisTemplate.opsForSet().add(prize_pool_key, 1);
-        redisTemplate.opsForSet().add(prize_pool_key, 2);
-        redisTemplate.opsForSet().add(prize_pool_key, 3);
-        redisTemplate.opsForSet().add(prize_pool_key, 4);
-        redisTemplate.opsForSet().add(prize_pool_key, 5);
-        redisTemplate.opsForSet().add(prize_pool_key, 6);
-        redisTemplate.opsForSet().add(prize_pool_key, 7);
-        redisTemplate.opsForSet().add(prize_pool_key, 8);
-        redisTemplate.opsForSet().add(prize_pool_key, 9);
-        redisTemplate.opsForSet().add(prize_pool_key, 10);
+
+        //
+        if (active.getId() > 0) {
+            throw new RuntimeException("hhhh");
+        }
 
         // 从奖池获取奖品
         Object prizeId = redisTemplate.opsForSet().pop(prize_pool_key);
@@ -97,5 +92,22 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
 
         return list;
 
+    }
+
+    private void demo() {
+//        String prize_pool_key = PRIZE_POOL + active.getId();
+
+//        String prize_member_list = PRIZE_MEMBER_LIST + active.getId();
+//
+//        redisTemplate.opsForSet().add(prize_pool_key, 1);
+//        redisTemplate.opsForSet().add(prize_pool_key, 2);
+//        redisTemplate.opsForSet().add(prize_pool_key, 3);
+//        redisTemplate.opsForSet().add(prize_pool_key, 4);
+//        redisTemplate.opsForSet().add(prize_pool_key, 5);
+//        redisTemplate.opsForSet().add(prize_pool_key, 6);
+//        redisTemplate.opsForSet().add(prize_pool_key, 7);
+//        redisTemplate.opsForSet().add(prize_pool_key, 8);
+//        redisTemplate.opsForSet().add(prize_pool_key, 9);
+//        redisTemplate.opsForSet().add(prize_pool_key, 10);
     }
 }
