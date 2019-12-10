@@ -19,11 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class StartAndEndController {
     @Autowired
     private StartAndEndService startAndEndService;
+
+    // 1.根据活动id,后台开始
     @RequestMapping(value = "/start", method = RequestMethod.POST)
-    public Integer wait(@RequestBody Active active){
+    public void start(@RequestBody Active active){
        //aid =1;
         //active.setId(1);
-       return  startAndEndService.selectNumByAid(active.getId());
+        startAndEndService.selectNumByAid(active.getId());
+
+    }
+    //2.根据活动id,后台结束
+    @RequestMapping(value = "/end", method = RequestMethod.POST)
+    public void end(@RequestBody Active active){
+        //aid =1;
+        //active.setId(1);
+        startAndEndService.selectNumByAid(active.getId());
 
     }
 }
