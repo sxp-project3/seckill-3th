@@ -10,5 +10,7 @@ import java.util.List;
 public interface PrizeDemoService {
     List robPrizeDemo(Integer activityId, Integer userId);
 
+    List getList(Integer id);
+
 
 }
