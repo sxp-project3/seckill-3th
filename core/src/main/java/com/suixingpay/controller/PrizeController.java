@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("select")
 public class PrizeController {
 
-
     @Autowired
     private PrizeService prizeService;
 
