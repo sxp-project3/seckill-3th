@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suixingpay.mapper.StartAndEndMapper">
+    <resultMap id="ActiveMap" type="com.suixingpay.pojo.Active">
+        <id column="id" property="id" jdbcType="INTEGER"/><!--活动id-->
+        <result column="max_prize_num" property="maxPrizeNum" jdbcType="VARCHAR"/><!--奖品数量-->
+        <result column="city" property="city"/><!--城市-->
+        <result column="title" property="title"/>
+        <result column="status" property="status"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+    <!--数据库字段集合 - SQL 查询字段-->
+    <sql id="Active_Column_List">
+        id,
+        title,
+        status,
+        city,
+        start_time,
+        end_time,
+        max_prize_num,
+        create_time,
+        update_time
+    </sql>
     <!--根据活动id,查找该活动奖品数量-->
-    <select id="selectNumByAid" parameterType="int" resultType="integer">
-        SELECT max_prize_num
+    <select id="selectNumByAid" parameterType="int" resultMap="ActiveMap">
+        SELECT
+        <include refid="Active_Column_List"/>
         FROM activelist
         WHERE id = #{id}
     </select>

@@ -1,6 +1,9 @@
 package com.suixingpay.mapper;
 
+import com.suixingpay.pojo.Active;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author zhangleying
@@ -11,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface StartAndEndMapper {
 
     //根据活动id,查找该活动奖品数量
-    Integer selectNumByAid(int aId);
+    List<Active> selectNumByAid(int aId);
 }
