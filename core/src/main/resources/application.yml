@@ -3,7 +3,7 @@ server:
 
 # mybatis 基本配置
 mybatis:
-  mapper-locations: classpath*:mybatis/*.xml
+  mapper-locations: classpath:mybatis/*.xml
   type-aliases-package: com.suixingpay.pojo
   configuration:
     map-underscore-to-camel-case: true

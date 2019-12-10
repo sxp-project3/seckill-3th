@@ -1,10 +1,10 @@
 package com.suixingpay.service;
 
 
-import com.suixingpay.enumeration.CodeEnum;
+import com.suixingpay.pojo.Active;
 import com.suixingpay.pojo.Users;
-import com.suixingpay.response.Response;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,5 +14,11 @@ import java.util.List;
  */
 
 public interface UserService {
-    Response<CodeEnum> selectUserById(Users users);
+
+    Users selectUserById(Users users);
+
+    Active selectActByCity(Active active);
+
+    Active selectNextByCity(String city, Date nextTime);
+
 }
