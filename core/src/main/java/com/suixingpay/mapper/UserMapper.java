@@ -4,7 +4,6 @@ import com.suixingpay.pojo.Active;
 import com.suixingpay.pojo.Users;
 import org.apache.ibatis.annotations.Param;
 
-import javax.annotation.security.PermitAll;
 import java.util.Date;
 import java.util.List;
 

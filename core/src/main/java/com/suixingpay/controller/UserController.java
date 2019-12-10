@@ -6,12 +6,12 @@ import com.suixingpay.pojo.Users;
 import com.suixingpay.response.Response;
 import com.suixingpay.service.UserService;
 import com.suixingpay.util.GetNextDay;
+import com.suixingpay.util.SecKillHttpUtil;
 import com.suixingpay.vo.ActiveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,13 +36,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SecKillHttpUtil secKillHttpUtil;
+
     @RequestMapping(value = "/select", method = RequestMethod.POST)
-    public Response selectUserById(@RequestBody Users users){
-        LOGGER.info("接收的参数为[{}]", users);
+    public Response selectUserById(){
+        //通过前端拿到参数
+        String userId = secKillHttpUtil.getToken("token");
+        Integer id = Integer.parseInt(userId);
+
+        //将拿到的参数，放到对象中
+        Users users = new Users();
+        users.setid(id);
         Map<String, Object> result = new HashMap<>();
 
         //传参判空
-        Integer id = users.getid();
         if (id == null){
             return  new Response("1","当前管家id不存在",null);
         }
@@ -96,11 +104,10 @@ public class UserController {
         ActiveVo activeLiveVo = new ActiveVo(actLiveExac, 1);
         ActiveVo activeNextVo = new ActiveVo(actNextExac, 0);
 
-        //装结果准备返回
 
+        //装结果准备返回
         result.put("userName", user.getUserName());
         result.put("userCity", user.getUserCity());
-
         result.put("validActInfo", activeLiveVo);
         result.put("nextActInfo", activeNextVo);
 
