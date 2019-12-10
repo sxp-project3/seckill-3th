@@ -75,20 +75,23 @@ public class PrizeDemoController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = dateFormat.format(now);
         Map<String, Object> prizeResult = null;
+        Response<Map<String, HashMap>> response = null;
         try {
-            prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
-
+            String prizeStringResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
+            prizeResult.put("prizeResult", prizeStringResult);
+            // prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
+            response = Response.getInstance(CodeEnum.SUCCESS, prizeResult);
         } catch (RuntimeException e) {
-
             log.info(e.getMessage());
+            response = Response.getInstance(CodeEnum.FAIL, e.getMessage());
         }
         // Map<String, Object> prizeResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("manager", manager);
-        result.put("active", active);
-        result.put("nowDate", nowDate);
-        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, prizeResult);
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("manager", manager);
+//        result.put("active", active);
+//        result.put("nowDate", nowDate);
+//        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, prizeResult);
         return response;
     }
 }
