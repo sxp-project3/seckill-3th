@@ -10,15 +10,16 @@
  8. dependencies - 显示项目的所有依赖关系.
  9. uploadArchives - 上传':archives'中配置的所有包到 maven 仓库
  */
-buildscript { // buildscript 不能抽取出来，只能重复写。
+buildscript {
+
     ext {
-//        sxGradleHome = "http://192.168.120.68/root/gradle-scripts/raw/master/" //内网配置
         sxGradleHome = "https://gitee.com/qihualive/gradle-scripts-github/raw/master/" //华哥的 gitee 配置
         suixingpayStarterVersion = "3.0.4.RELEASE" // 基础框架
         suixingpayConfigVersion = "1.1.0-SNAPSHOT" // 配置中心
         fdPortalVersion = "1.0.0-SNAPSHOT" // 统一门户
         springBootAdminVersion = "1.5.7"
     }
+
     apply from: sxGradleHome + 'maven.gradle'
     apply from: sxGradleHome + 'spring-cloud-edgware.gradle' // 导入使用Spring Cloud及相应的Spring Boot版本号
     repositories {
