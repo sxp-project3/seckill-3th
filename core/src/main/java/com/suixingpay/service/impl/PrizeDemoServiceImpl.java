@@ -52,9 +52,11 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         System.out.println(d);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
-        // System.out.println("格式化后的日期：" + dateNowStr);
         String prizeResult = prizeId + ";" + dateNowStr;
-        redisTemplate.opsForHash().put(prize_member_list, userId, prizeResult);
+
+        redisTemplate.opsForHash().put(prize_member_list, String.valueOf(userId), prizeResult);
+        log.info(redisTemplate.opsForHash().get(prize_member_list, String.valueOf(userId)).toString());
+
         return prizeResult;
         // return prizeId.toString();
     }

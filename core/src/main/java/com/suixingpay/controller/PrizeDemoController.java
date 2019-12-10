@@ -3,6 +3,7 @@ package com.suixingpay.controller;
 import com.suixingpay.enumeration.CodeEnum;
 import com.suixingpay.response.Response;
 import com.suixingpay.service.PrizeDemoService;
+import com.suixingpay.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,15 @@ public class PrizeDemoController {
     @Autowired
     private PrizeDemoService prizeDemoService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/rob")
     @ResponseBody
     public Response robPrize(@RequestParam("activityId") String activityId) {
+        Integer userId = 3001;
+        // Response userResponse = userService.selectUserById(3001);
+
         String prizeResult = prizeDemoService.robPrizeDemo(1, 1);
 //        String hello = "hello kongjian";
         int prizeId = Integer.parseInt(prizeResult);
