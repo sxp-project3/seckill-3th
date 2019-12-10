@@ -50,7 +50,10 @@ public class ActiveServiceImpl implements ActiveService {
         return activeList;
     }
 
-
+    @Override
+    public Active getOneById(int id) {
+        return activeMapper.selectOneById(id);
+    }
 
 
 }

@@ -33,4 +33,6 @@ public interface ActiveMapper {
      * @Date: 2019/12/10 9:35
      */
     List<Active> selectAll();
+
+    Active selectOneById(int id);
 }

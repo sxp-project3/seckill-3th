@@ -1,13 +1,11 @@
 package com.suixingpay.service;
 
-import com.suixingpay.enumeration.CodeEnum;
 import com.suixingpay.mapper.UserMapper;
+import com.suixingpay.pojo.Active;
 import com.suixingpay.pojo.Users;
-import com.suixingpay.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +22,23 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public Response<CodeEnum> selectUserById(Users users) {
-        List<Users> list = userMapper.selectUserById(users);
-        return Response.getInstance(CodeEnum.SUCCESS,list);
+    public Users selectUserById(Users users) {
+
+        Users user = userMapper.selectUserById(users);
+        return user;
+    }
+
+    @Override
+    public Active selectActByCity(Active active) {
+
+        Active act = userMapper.selectActByCity(active);
+        return act;
+    }
+
+    @Override
+    public Active selectNextByCity(String city, Date nextTime) {
+
+        Active acti = userMapper.selectNextByCity(city,nextTime);
+        return acti;
     }
 }
