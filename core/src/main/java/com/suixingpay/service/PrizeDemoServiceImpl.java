@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,17 +44,27 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
             throw new RuntimeException("鑫管家不能参加此城市的活动");
         }
         // 判断活动时间
-//        Date startAt = active.getStartTime();
-//        Date endAt = active.getEndTime();
-//        Date now = new Date();
-//        if (startAt > now)
+        long startAt = active.getStartTime().getTime();
+        long endAt = active.getEndTime().getTime();
+        // log.info("startAt:" + startAt);
+        // log.info("endAt:" + endAt);
+        Date now = new Date();
+        long nowAt = now.getTime();
+        // log.info("nowAt:" + nowAt);
+        // log.info("nowAt:" + nowAt);
+        if (startAt > nowAt) {
+            throw new RuntimeException("秒杀活动尚未开始，请稍后再来。");
+        }
+        if (endAt < nowAt) {
+            throw new RuntimeException("秒杀活动已结束，请关注下次活动。");
+        }
         // 判断活动剩余奖品数量
         if (redisTemplate.opsForSet().members(prize_pool_key).size() == 0) {
-            throw new RuntimeException("秒杀奖品已被抢完，请下次再来");
+            throw new RuntimeException("秒杀奖品已被抢完，请下次再来。");
         }
         // 判断用户是否参与过抽奖
         if (redisTemplate.opsForHash().hasKey(prize_member_list, String.valueOf(manager.getId()))) {
-            throw new RuntimeException("您已经抢到了奖品，请等待app消息通知");
+            throw new RuntimeException("您已经抢到了奖品，请等待app消息通知。");
         }
 
         // 从奖池获取奖品
@@ -64,10 +75,8 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         if (!redisTemplate.opsForHash().putIfAbsent(prize_member_list, String.valueOf(manager.getId()), prizeResult)) {
             // 奖品放回奖池
             redisTemplate.opsForSet().add(prize_pool_key, Integer.parseInt(prizeId.toString()));
-            throw new RuntimeException("您已经抢到了奖品，请等待app消息通知");
+            throw new RuntimeException("您已经抢到了奖品，请等待app消息通知。");
         }
-        // log.info(redisTemplate.opsForHash().get(prize_member_list, String.valueOf(manager.getId())).toString());
-        // List hlist = redisTemplate.opsForHash().values(prize_member_list);
 
         String result = "秒杀成功";
 //        Map<String, Object> result = new HashMap<>();
