@@ -1,3 +1,4 @@
 rootProject.name = 'seckill-3th'
 include 'core'
+include 'seckill-jalr4ever'
 
