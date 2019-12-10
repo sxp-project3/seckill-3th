@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: kongjian
@@ -23,12 +24,11 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
     // 中奖名单
     private static final String PRIZE_MEMBER_LIST = "prize:member:list";
 
-
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public String robPrizeDemo(Integer activityId, Integer userId) {
+    public List robPrizeDemo(Integer activityId, Integer userId) {
         String prize_pool_key = PRIZE_POOL + activityId;
         String prize_member_list = PRIZE_MEMBER_LIST + activityId;
 //
@@ -52,12 +52,13 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         System.out.println(d);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
-        String prizeResult = prizeId + ";" + dateNowStr;
+        String prizeResult = String.valueOf(userId) + ";" + prizeId + ";" + dateNowStr;
 
         redisTemplate.opsForHash().put(prize_member_list, String.valueOf(userId), prizeResult);
         log.info(redisTemplate.opsForHash().get(prize_member_list, String.valueOf(userId)).toString());
 
-        return prizeResult;
-        // return prizeId.toString();
+        List hlist = redisTemplate.opsForHash().values(prize_member_list);
+
+        return hlist;
     }
 }

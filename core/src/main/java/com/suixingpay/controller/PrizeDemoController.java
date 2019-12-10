@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,12 +36,12 @@ public class PrizeDemoController {
         Integer userId = 3001;
         // Response userResponse = userService.selectUserById(3001);
 
-        String prizeResult = prizeDemoService.robPrizeDemo(1, 1);
+        List prizeResult = prizeDemoService.robPrizeDemo(1, 1);
 //        String hello = "hello kongjian";
-        int prizeId = Integer.parseInt(prizeResult);
-        log.error(prizeResult);
+        // int prizeId = Integer.parseInt(prizeResult);
+        // log.error(prizeResult);
         Map<String, Object> result = new HashMap<>();
-        result.put("msg", prizeId);
+        result.put("list", prizeResult);
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;
     }
