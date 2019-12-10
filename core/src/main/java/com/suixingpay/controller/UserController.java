@@ -6,12 +6,12 @@ import com.suixingpay.pojo.Users;
 import com.suixingpay.response.Response;
 import com.suixingpay.service.UserService;
 import com.suixingpay.util.GetNextDay;
+import com.suixingpay.util.SecKillHttpUtil;
 import com.suixingpay.vo.ActiveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,9 +36,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SecKillHttpUtil secKillHttpUtil;
+
     @RequestMapping(value = "/select", method = RequestMethod.POST)
-    public Response<Map<String, HashMap>> selectUserById(@RequestBody Users users){
-        LOGGER.info("接收的参数为[{}]", users);
+    public Response selectUserById(){
+        //通过前端拿到参数
+        String userId = secKillHttpUtil.getToken("token");
+        Integer id = Integer.parseInt(userId);
+
+        //将拿到的参数，放到对象中
+        Users users = new Users();
+        users.setid(id);
+        Map<String, Object> result = new HashMap<>();
+
+        //传参判空
+        if (id == null){
+            return  new Response("1","当前管家id不存在",null);
+        }
 
 
         //第一次查询，并拿出city字段用作下一个的查询条件
@@ -53,7 +68,7 @@ public class UserController {
 
 
         //查询出当前可抢的活动信息
-        Active actLive = userService.selectActByCity(active);
+        List<Active> actLive = userService.selectActByCity(active);
 
 
         //查询当日可参加的活动信息
@@ -62,23 +77,42 @@ public class UserController {
 
 
         //限制到最近的一个可参加的活动
-        Active actNext = userService.selectNextByCity(active.getCity(), nextTime);
+        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime);
+
+
+        // 当前可立即参加的活动为空，也可以继续执行
+        Active actLiveExac = null;
+        if (actLive.size() == 0) {
+            actLiveExac = new Active();
+            result.put("validActInfo", null);
+        } else {
+            actLiveExac = actLive.get(0);
+        }
+
+
+        //今日即将参加的活动为空，也可以继续执行
+        Active actNextExac = null;
+        if (actNext.size() == 0){
+            actNextExac = new Active();
+            result.put("nextActInfo", null);
+        }else {
+            actNextExac = actNext.get(0);
+        }
 
 
         // 初始化 isvalid 信息
-        ActiveVo activeLiveVo = new ActiveVo(actLive, 1);
-        ActiveVo activeNextVo = new ActiveVo(actNext, 0);
+        ActiveVo activeLiveVo = new ActiveVo(actLiveExac, 1);
+        ActiveVo activeNextVo = new ActiveVo(actNextExac, 0);
+
 
         //装结果准备返回
-        Map<String, Object> result = new HashMap<>();
         result.put("userName", user.getUserName());
         result.put("userCity", user.getUserCity());
-
         result.put("validActInfo", activeLiveVo);
         result.put("nextActInfo", activeNextVo);
 
         //获取系统当前时间
-        SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = sdf.format(new Date());
         result.put("date",str);
         //将所有结果全部返回

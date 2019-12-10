@@ -29,16 +29,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Active selectActByCity(Active active) {
+    public List<Active> selectActByCity(Active active) {
 
-        Active act = userMapper.selectActByCity(active);
+        List<Active> act = userMapper.selectActByCity(active);
         return act;
     }
 
     @Override
-    public Active selectNextByCity(String city, Date nextTime) {
+    public List<Active> selectNextByCity(String city, Date nextTime) {
 
-        Active acti = userMapper.selectNextByCity(city,nextTime);
+        List<Active> acti = userMapper.selectNextByCity(city,nextTime);
         return acti;
     }
 }
