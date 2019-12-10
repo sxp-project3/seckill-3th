@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suixingpay.mapper.UserMapper">
+    <resultMap id="result" type="com.suixingpay.pojo.Users">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userCity" column="user_city"/>
+        <result property="title" column="title"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+	<select id="selectUserById" parameterType="int" resultMap="result">
+    SELECT id, user_name, user_city from user where id=#{id};
+  </select>
+
+
+
+</mapper>
