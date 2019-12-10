@@ -6,11 +6,11 @@
             <result column="title" property="title" jdbcType="VARCHAR"/>
             <result column="status" property="status" jdbcType="INTEGER"/>
             <result column="city" property="city" jdbcType="VARCHAR"/>
-            <result column="start_time" property="startTime" jdbcType="DATE"/>
-            <result column="end_time" property="endTime" jdbcType="DATE"/>
+            <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+            <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
             <result column="max_prize_num" property="maxPrizeNum" jdbcType="INTEGER"/>
-            <result column="create_time" property="createTime" jdbcType="DATE"/>
-            <result column="update_time" property="updateTime" jdbcType="DATE"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
@@ -28,4 +28,9 @@
 
 
    </select>
+
+    <select id="selectOneById" resultMap="activeMap">
+        select id,title,status,city,start_time,end_time,max_prize_num
+        from activelist where id=#{id,jdbcType=INTEGER}
+    </select>
 </mapper>

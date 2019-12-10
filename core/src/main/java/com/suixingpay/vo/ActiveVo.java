@@ -1,32 +1,53 @@
-package com.suixingpay.pojo;
+package com.suixingpay.vo;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import com.suixingpay.pojo.Active;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 /**
- * ClassName Active
- *
- * @Description TODO
- * @Author luyun
- * @Date 2019/12/9 11:21
- * @Version 1.0
- **/
+ * @author 詹文良
+ * @description 满足特定需求，与前端交互的实体
+ */
+public class ActiveVo {
 
-public class Active {
-    private  int id;
-    private  String title;
-    private  int status;
-    private  String city;
+    private int id;
+    private String title;
+    private int status;
+    private String city;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private  Date startTime;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private  Date endTime;
-    private  int maxPrizeNum;
+    private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date endTime;
+    private int maxPrizeNum;
+    private Date createTime;
+    private Date updateTime;
+    private Integer isValid;
+
+    public ActiveVo(Active active,Integer isValid) {
+        this.id = active.getId();
+        this.title = active.getTitle();
+        this.status = active.getStatus();
+        this.city = active.getCity();
+        this.startTime = active.getStartTime();
+        this.endTime = active.getEndTime();
+        this.maxPrizeNum = active.getMaxPrizeNum();
+        this.createTime = active.getCreateTime();
+        this.updateTime = active.getUpdateTime();
+        this.isValid = isValid;
+    }
+
+    public Integer getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Integer isValid) {
+        this.isValid = isValid;
+    }
 
     public int getId() {
         return id;
@@ -99,10 +120,6 @@ public class Active {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private  Date createTime;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private  Date updateTime;
+
+
 }
