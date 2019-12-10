@@ -28,7 +28,14 @@ public class DateConverterConfig  implements Converter<String,Date> {
         formarts.add("yyyy-MM-dd hh:mm");
         formarts.add("yyyy-MM-dd hh:mm:ss");
     }
-
+    /**
+     * 功能描述: <处理日期>
+     * 〈〉
+     * @Param: [source]
+     * @Return: java.util.Date
+     * @Author: luyun
+     * @Date: 2019/12/10 14:58
+     */
     @Override
     public Date convert(String source) {
         String value = source.trim();
