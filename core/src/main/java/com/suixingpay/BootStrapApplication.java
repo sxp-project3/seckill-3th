@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created by Jalr4ever on 2019/12/9.
  */
 
+
 @SpringBootApplication
 @MapperScan("com.suixingpay.mapper")
 public class BootStrapApplication {

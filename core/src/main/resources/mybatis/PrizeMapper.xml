@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suixingpay.mapper.PrizeMapper">
+  <resultMap id="BaseResultMap" type="com.suixingpay.pojo.Prize">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="merchant_code" jdbcType="INTEGER" property="merchantCode" />
+    <result column="phone_number" jdbcType="CHAR" property="phoneNumber" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="ID_number" jdbcType="INTEGER" property="idNumber" />
+    <result column="territory" jdbcType="CHAR" property="territory" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, merchant_code, phone_number, name, ID_number, territory, activity_id
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="Integer">
+    delete from prize
+    where id = #{id}
+  </delete>
+<!--  <insert id="insert" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    insert into prize (id, merchant_code, phone_number, -->
+<!--      name, ID_number, territory, -->
+<!--      activity_id)-->
+<!--    values (#{id,jdbcType=INTEGER}, #{merchantCode,jdbcType=INTEGER}, #{phoneNumber,jdbcType=CHAR}, -->
+<!--      #{name,jdbcType=CHAR}, #{idNumber,jdbcType=INTEGER}, #{territory,jdbcType=CHAR}, -->
+<!--      #{activityId,jdbcType=INTEGER})-->
+<!--  </insert>-->
+<!--  <insert id="insertSelective" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    insert into prize-->
+<!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">-->
+<!--        id,-->
+<!--      </if>-->
+<!--      <if test="merchantCode != null">-->
+<!--        merchant_code,-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        phone_number,-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        name,-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        ID_number,-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        territory,-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        activity_id,-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--    <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">-->
+<!--        #{id,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="merchantCode != null">-->
+<!--        #{merchantCode,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        #{phoneNumber,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        #{name,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        #{idNumber,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        #{territory,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        #{activityId,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    update prize-->
+<!--    <set>-->
+<!--      <if test="merchantCode != null">-->
+<!--        merchant_code = #{merchantCode,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        phone_number = #{phoneNumber,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        name = #{name,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        ID_number = #{idNumber,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        territory = #{territory,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        activity_id = #{activityId,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    update prize-->
+<!--    set merchant_code = #{merchantCode,jdbcType=INTEGER},-->
+<!--      phone_number = #{phoneNumber,jdbcType=CHAR},-->
+<!--      name = #{name,jdbcType=CHAR},-->
+<!--      ID_number = #{idNumber,jdbcType=INTEGER},-->
+<!--      territory = #{territory,jdbcType=CHAR},-->
+<!--      activity_id = #{activityId,jdbcType=INTEGER}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <resultMap id="BaseResultMap" type="com.suixingpay.pojo.Prize">-->
+<!--    <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--    <result column="merchant_code" jdbcType="INTEGER" property="merchantCode" />-->
+<!--    <result column="phone_number" jdbcType="CHAR" property="phoneNumber" />-->
+<!--    <result column="name" jdbcType="CHAR" property="name" />-->
+<!--    <result column="ID_number" jdbcType="INTEGER" property="idNumber" />-->
+<!--    <result column="territory" jdbcType="CHAR" property="territory" />-->
+<!--    <result column="activity_id" jdbcType="INTEGER" property="activityId" />-->
+<!--  </resultMap>-->
+<!--  <sql id="Base_Column_List">-->
+<!--    id, merchant_code, phone_number, name, ID_number, territory, activity_id-->
+<!--  </sql>-->
+<!--  <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">-->
+<!--    select -->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from prize-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </select>-->
+<!--  <delete id="deleteByPrimaryKey" parameterType="Integer">-->
+<!--    delete from prize-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </delete>-->
+<!--  <insert id="insert" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    insert into prize (id, merchant_code, phone_number, -->
+<!--      name, ID_number, territory, -->
+<!--      activity_id)-->
+<!--    values (#{id,jdbcType=INTEGER}, #{merchantCode,jdbcType=INTEGER}, #{phoneNumber,jdbcType=CHAR}, -->
+<!--      #{name,jdbcType=CHAR}, #{idNumber,jdbcType=INTEGER}, #{territory,jdbcType=CHAR}, -->
+<!--      #{activityId,jdbcType=INTEGER})-->
+<!--  </insert>-->
+<!--  <insert id="insertSelective" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    insert into prize-->
+<!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">-->
+<!--        id,-->
+<!--      </if>-->
+<!--      <if test="merchantCode != null">-->
+<!--        merchant_code,-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        phone_number,-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        name,-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        ID_number,-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        territory,-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        activity_id,-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--    <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">-->
+<!--        #{id,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="merchantCode != null">-->
+<!--        #{merchantCode,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        #{phoneNumber,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        #{name,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        #{idNumber,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        #{territory,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        #{activityId,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    update prize-->
+<!--    <set>-->
+<!--      <if test="merchantCode != null">-->
+<!--        merchant_code = #{merchantCode,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="phoneNumber != null">-->
+<!--        phone_number = #{phoneNumber,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="name != null">-->
+<!--        name = #{name,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="idNumber != null">-->
+<!--        ID_number = #{idNumber,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="territory != null">-->
+<!--        territory = #{territory,jdbcType=CHAR},-->
+<!--      </if>-->
+<!--      <if test="activityId != null">-->
+<!--        activity_id = #{activityId,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.suixingpay.pojo.Prize">-->
+<!--    update prize-->
+<!--    set merchant_code = #{merchantCode,jdbcType=INTEGER},-->
+<!--      phone_number = #{phoneNumber,jdbcType=CHAR},-->
+<!--      name = #{name,jdbcType=CHAR},-->
+<!--      ID_number = #{idNumber,jdbcType=INTEGER},-->
+<!--      territory = #{territory,jdbcType=CHAR},-->
+<!--      activity_id = #{activityId,jdbcType=INTEGER}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+
+
+
+<!--  <select id="selectPrize" parameterType="com.suixingpay.pojo.Prize" resultMap="com.suixingpay.pojo.Prize">-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from prize-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </select>-->
+
+
+  <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from prize
+    where id = #{id}
+  </select>
+
+  <select id="selectCount" resultType="Integer" parameterType="String">
+    select count(*)
+    from prize
+    where activity_id=0 and territory=#{territory}
+  </select>
+
+
+
+  <select id="selectLimit" resultType="Integer" parameterType="com.suixingpay.pojo.Dog">
+    select id
+    from prize
+    where territory=#{territory} limit 0,#{data}
+  </select>
+
+</mapper>
