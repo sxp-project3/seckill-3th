@@ -22,11 +22,25 @@
         create_time,
         update_time
     </sql>
-    <!--根据活动id,查找该活动奖品数量-->
+    <!--根据活动id,查找该活动信息-->
     <select id="selectActiveByAid" parameterType="int" resultMap="ActiveMap">
         SELECT
         <include refid="Active_Column_List"/>
         FROM activelist
         WHERE id = #{id}
     </select>
+
+
+    <update id="updatePrizeActivityId">
+        update `prize`
+        set
+        activity_id = #{activityId}
+        where 1 = 1
+        <if test="prizeIdList != null">
+            and id in
+            <foreach collection="prizeIdList" item="prizeIdNum" open="(" close=")" separator=",">
+                #{prizeIdNum}
+            </foreach>
+        </if>
+    </update>
 </mapper>

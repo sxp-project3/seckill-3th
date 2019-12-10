@@ -1,6 +1,7 @@
 package com.suixingpay.controller;
 
 import com.suixingpay.pojo.Active;
+import com.suixingpay.response.Response;
 import com.suixingpay.service.StartAndEndService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,8 @@ public class StartAndEndController {
 
     // 1.根据活动id,后台开始
     @RequestMapping(value = "/start", method = RequestMethod.POST)
-    public void start(@RequestBody Active active){
-       //aid =1;
-        //active.setId(1);
-        startAndEndService.selectActiveByAid(active.getId());
+    public Response start(@RequestBody Active active){
+        return startAndEndService.backGroundStart(active.getId());
 
     }
     //2.根据活动id,后台结束
@@ -33,7 +32,7 @@ public class StartAndEndController {
     public void end(@RequestBody Active active){
         //aid =1;
         //active.setId(1);
-        startAndEndService.selectActiveByAid(active.getId());
+        startAndEndService.backGroundStart(active.getId());
 
     }
 }
