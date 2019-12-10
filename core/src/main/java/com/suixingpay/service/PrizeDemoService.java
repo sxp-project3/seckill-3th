@@ -1,6 +1,10 @@
 package com.suixingpay.service;
 
+import com.suixingpay.pojo.Active;
+import com.suixingpay.pojo.Manager;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kongjian
@@ -8,9 +12,8 @@ import java.util.List;
  */
 
 public interface PrizeDemoService {
-    List robPrizeDemo(Integer activityId, Integer userId);
+
+    Map robPrizeDemo(Active active, Manager manager, String nowDate);
 
     List getList(Integer id);
-
-
 }

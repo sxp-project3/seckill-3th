@@ -34,5 +34,5 @@ public interface ActiveService {
      */
     List<Active> selectAll();
 
-
+    Active getOneById(int id);
 }
