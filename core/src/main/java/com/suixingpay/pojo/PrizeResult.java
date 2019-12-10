@@ -17,9 +17,11 @@ public class PrizeResult {
     //装机状态
     private Integer status;
     //得奖时间
-    private Date prizeTime;
+    private String prizeTime;
     //创建时间
     private Date createTime;
+    //沉默用户id
+    private Integer prizeId;
 
     public PrizeResult() {
     }
@@ -56,12 +58,20 @@ public class PrizeResult {
         this.status = status;
     }
 
-    public Date getPrizeTime() {
+    public String getPrizeTime() {
         return prizeTime;
     }
 
-    public void setPrizeTime(Date prizeTime) {
+    public void setPrizeTime(String prizeTime) {
         this.prizeTime = prizeTime;
+    }
+
+    public Integer getPrizeId() {
+        return prizeId;
+    }
+
+    public void setPrizeId(Integer prizeId) {
+        this.prizeId = prizeId;
     }
 
     public Date getCreateTime() {

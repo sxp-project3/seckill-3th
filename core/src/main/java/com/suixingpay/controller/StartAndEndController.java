@@ -1,6 +1,7 @@
 package com.suixingpay.controller;
 
 import com.suixingpay.pojo.Active;
+import com.suixingpay.response.Response;
 import com.suixingpay.service.StartAndEndService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,20 +21,21 @@ public class StartAndEndController {
     @Autowired
     private StartAndEndService startAndEndService;
 
-    // 1.根据活动id,后台开始
+    /*1.根据活动id,后台开始功能
+    后台管理者点击开始，活动才能开始，
+    将一定数量的沉默用户插入到redis,并且修改奖品表所参与活动id字段为当前活动id*/
     @RequestMapping(value = "/start", method = RequestMethod.POST)
-    public void start(@RequestBody Active active){
-       //aid =1;
-        //active.setId(1);
-        startAndEndService.selectActiveByAid(active.getId());
+    public Response start(@RequestBody Active active) {
+        return startAndEndService.backGroundStart(active.getId());
 
     }
-    //2.根据活动id,后台结束
+
+
+    /*2.根据活动id,后台结束
+     * 后台管理者点击结束，将活动结果表插入数据，并且在奖品表中修改活动中剩余的沉默用户id为0*/
     @RequestMapping(value = "/end", method = RequestMethod.POST)
-    public void end(@RequestBody Active active){
-        //aid =1;
-        //active.setId(1);
-        startAndEndService.selectActiveByAid(active.getId());
+    public Response end(@RequestBody Active active) {
+        return startAndEndService.backGroundEnd(active.getId());
 
     }
 }

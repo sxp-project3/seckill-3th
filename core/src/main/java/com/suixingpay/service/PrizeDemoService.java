@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface PrizeDemoService {
 
-    Map robPrizeDemo(Active active, Manager manager, String nowDate);
+    String robPrizeDemo(Active active, Manager manager, String nowDate);
 
     List getList(Integer id);
 }
