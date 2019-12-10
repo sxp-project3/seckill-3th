@@ -1,6 +1,8 @@
 package com.suixingpay.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -18,7 +20,9 @@ public class Active {
     private  String title;
     private  int status;
     private  String city;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private  Date startTime;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private  Date endTime;
     private  int maxPrizeNum;
 
@@ -93,7 +97,8 @@ public class Active {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private  Date createTime;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private  Date updateTime;
 }
