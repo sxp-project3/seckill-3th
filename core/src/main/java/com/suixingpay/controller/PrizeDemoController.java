@@ -67,8 +67,8 @@ public class PrizeDemoController {
         Response<Map<String, HashMap>> response = null;
         try {
             String prizeStringResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
-            prizeResult.put("prizeResult", prizeStringResult);
-            response = Response.getInstance(CodeEnum.SUCCESS, prizeResult);
+            // prizeResult.put("prizeResult", prizeStringResult);
+            response = Response.getInstance(CodeEnum.SUCCESS, prizeStringResult);
         } catch (RuntimeException e) {
             log.info(e.getMessage());
             response = Response.getInstance(CodeEnum.FAIL, e.getMessage());
