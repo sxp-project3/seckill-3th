@@ -64,6 +64,7 @@ public class ActiveListController {
             String city=active.getCity();
             Date startTime=active.getStartTime();
             Date endTime=active.getEndTime();
+            int maxPrizeNum=active.getMaxPrizeNum();
             active.setCreateTime(new Date());
 
             if (MiaoShaUtil.isBlank(title)){
@@ -72,6 +73,10 @@ public class ActiveListController {
             }
             if (MiaoShaUtil.isBlank(city)){
                 result.put("城市不能为空",msg);
+                return Response.getInstance(CodeEnum.FAIL,result);
+            }
+            if (maxPrizeNum==0||maxPrizeNum<0){
+                result.put("数量不能为空",msg);
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (startTime==null){
