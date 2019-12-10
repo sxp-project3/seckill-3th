@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 /**
  * @author 詹文良
  * @program: seckill-3th
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>
  * Created by Jalr4ever on 2019/12/9.
  */
+
 
 @SpringBootApplication
 @MapperScan("com.suixingpay.mapper")

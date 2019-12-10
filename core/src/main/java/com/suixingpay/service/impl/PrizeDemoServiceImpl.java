@@ -1,5 +1,8 @@
 package com.suixingpay.service.impl;
 
+import com.suixingpay.pojo.Active;
+import com.suixingpay.pojo.Cat;
+import com.suixingpay.pojo.Manager;
 import com.suixingpay.service.PrizeDemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @Author: kongjian
@@ -23,14 +26,16 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
     // 中奖名单
     private static final String PRIZE_MEMBER_LIST = "prize:member:list";
 
+    private Cat cat;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+
     @Override
-    public String robPrizeDemo(Integer activityId, Integer userId) {
-        String prize_pool_key = PRIZE_POOL + activityId;
-        String prize_member_list = PRIZE_MEMBER_LIST + activityId;
+    public Map robPrizeDemo(Active active, Manager manager, String nowDate) {
+        String prize_pool_key = PRIZE_POOL + active.getId();
+        String prize_member_list = PRIZE_MEMBER_LIST + active.getId();
 //
         redisTemplate.opsForSet().add(prize_pool_key, 1);
         redisTemplate.opsForSet().add(prize_pool_key, 2);
@@ -48,14 +53,49 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         log.info("prize id:" + prizeId.toString());
         // 记录中奖信息
 
-        Date d = new Date();
-        System.out.println(d);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateNowStr = sdf.format(d);
-        // System.out.println("格式化后的日期：" + dateNowStr);
-        String prizeResult = prizeId + ";" + dateNowStr;
-        redisTemplate.opsForHash().put(prize_member_list, userId, prizeResult);
-        return prizeResult;
-        // return prizeId.toString();
+//        Date d = new Date();
+//        System.out.println(d);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String dateNowStr = sdf.format(d);
+        String prizeResult = String.valueOf(manager.getId()) + ";" + prizeId + ";" + nowDate;
+
+        redisTemplate.opsForHash().put(prize_member_list, String.valueOf(manager.getId()), prizeResult);
+        log.info(redisTemplate.opsForHash().get(prize_member_list, String.valueOf(manager.getId())).toString());
+
+        List hlist = redisTemplate.opsForHash().values(prize_member_list);
+
+        Map<String, Object> result = new HashMap<>();
+//        result.put("prizeStatus", 0);
+//        result.put("msg", "秒杀成功");
+        result.put("prizeStatus", -1);
+        result.put("msg", "执行失败，奖品不够");
+
+        return result;
+    }
+
+
+    @Override
+    public List getList(Integer activityId){
+
+        String prize_member_list = PRIZE_MEMBER_LIST + activityId;
+        List hlist = redisTemplate.opsForHash().values(prize_member_list);
+
+        List list = new ArrayList();
+        Iterator it = hlist.iterator();
+        while(it.hasNext()) {
+            String next = (String)it.next();
+            String[] split = next.split(";");
+            // System.out.println("管家id:"+split[0]+" 奖品id:"+split[1]+" 中奖时间:"+split[2]);
+            int Prize_id = Integer.parseInt(split[1]);
+            int Manager_id = Integer.parseInt(split[0]);
+            Cat cat = new Cat();
+            cat.setPrize_id(Prize_id);
+            cat.setManager_id(Manager_id);
+            cat.setGet_prize_time(split[2]);
+            list.add(cat);
+        }
+
+        return list;
+
     }
 }
