@@ -12,7 +12,8 @@
     </resultMap>
     <!--数据库字段集合 - SQL 查询字段-->
     <sql id="Active_Column_List">
-        id,
+        id
+        ,
         title,
         status,
         city,
@@ -30,7 +31,7 @@
         WHERE id = #{id}
     </select>
 
-
+    <!--修改奖品表activity_id字段为参与活动id-->
     <update id="updatePrizeActivityId">
         update `prize`
         set
@@ -43,4 +44,63 @@
             </foreach>
         </if>
     </update>
+    <!--修改奖品表activity_id字段为0-->
+    <update id="updatePrizeByActivityId">
+        update `prize`
+        set
+        activity_id = 0
+        where 1 = 1
+        <if test="prizeIdResidue != null">
+            and id in
+            <foreach collection="prizeIdResidue" item="prizeIdNum" open="(" close=")" separator=",">
+                #{prizeIdNum}
+            </foreach>
+        </if>
+    </update>
+    <!-- 动态SQL ：插入一条得奖结果表 -->
+    <insert id="insertPrizeResult" parameterType="com.suixingpay.pojo.PrizeResult">
+        insert into seckill_winning_results
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="manageId != null">
+                manage_id,
+            </if>
+            <if test="prizeTime != null and prizeTime !=''">
+                prize_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="prizeId != null">
+                prize_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="manageId != null">
+                #{manageId,jdbcType=INTEGER},
+            </if>
+            <if test="prizeTime != null and prizeTime !=''">
+                #{prizeTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="prizeId != null">
+                #{prizeId,jdbcType=INTEGER},
+            </if>
+
+        </trim>
+    </insert>
 </mapper>
