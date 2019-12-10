@@ -14,5 +14,5 @@ import java.util.List;
 public interface StartAndEndMapper {
 
     //根据活动id,查找该活动奖品数量
-    List<Active> selectNumByAid(int aId);
+    List<Active> selectActiveByAid(int aId);
 }

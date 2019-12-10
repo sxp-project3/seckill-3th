@@ -25,7 +25,7 @@ public class StartAndEndController {
     public void start(@RequestBody Active active){
        //aid =1;
         //active.setId(1);
-        startAndEndService.selectNumByAid(active.getId());
+        startAndEndService.selectActiveByAid(active.getId());
 
     }
     //2.根据活动id,后台结束
@@ -33,7 +33,7 @@ public class StartAndEndController {
     public void end(@RequestBody Active active){
         //aid =1;
         //active.setId(1);
-        startAndEndService.selectNumByAid(active.getId());
+        startAndEndService.selectActiveByAid(active.getId());
 
     }
 }

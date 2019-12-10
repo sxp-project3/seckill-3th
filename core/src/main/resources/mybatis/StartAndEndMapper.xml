@@ -23,7 +23,7 @@
         update_time
     </sql>
     <!--根据活动id,查找该活动奖品数量-->
-    <select id="selectNumByAid" parameterType="int" resultMap="ActiveMap">
+    <select id="selectActiveByAid" parameterType="int" resultMap="ActiveMap">
         SELECT
         <include refid="Active_Column_List"/>
         FROM activelist

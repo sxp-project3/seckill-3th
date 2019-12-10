@@ -21,9 +21,9 @@ public class StartAndEndServiceImpl implements StartAndEndService{
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
     @Override
-    public void selectNumByAid(int aId){
+    public void selectActiveByAid(int aId){
 
-        List<Active> activeList= startAndEndMapper.selectNumByAid(aId);
+        List<Active> activeList= startAndEndMapper.selectActiveByAid(aId);
         List<Integer> list = new ArrayList<Integer>();
         Integer prizeNum=activeList.get(0).getMaxPrizeNum();
         String city=activeList.get(0).getCity();
