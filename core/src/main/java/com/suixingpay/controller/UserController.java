@@ -37,8 +37,15 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/select", method = RequestMethod.POST)
-    public Response<Map<String, HashMap>> selectUserById(@RequestBody Users users){
+    public Response selectUserById(@RequestBody Users users){
         LOGGER.info("接收的参数为[{}]", users);
+        Map<String, Object> result = new HashMap<>();
+
+        //传参判空
+        Integer id = users.getid();
+        if (id == null){
+            return  new Response("1","当前管家id不存在",null);
+        }
 
 
         //第一次查询，并拿出city字段用作下一个的查询条件
@@ -53,7 +60,7 @@ public class UserController {
 
 
         //查询出当前可抢的活动信息
-        Active actLive = userService.selectActByCity(active);
+        List<Active> actLive = userService.selectActByCity(active);
 
 
         //查询当日可参加的活动信息
@@ -62,15 +69,35 @@ public class UserController {
 
 
         //限制到最近的一个可参加的活动
-        Active actNext = userService.selectNextByCity(active.getCity(), nextTime);
+        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime);
+
+
+        // 当前可立即参加的活动为空，也可以继续执行
+        Active actLiveExac = null;
+        if (actLive.size() == 0) {
+            actLiveExac = new Active();
+            result.put("validActInfo", null);
+        } else {
+            actLiveExac = actLive.get(0);
+        }
+
+
+        //今日即将参加的活动为空，也可以继续执行
+        Active actNextExac = null;
+        if (actNext.size() == 0){
+            actNextExac = new Active();
+            result.put("nextActInfo", null);
+        }else {
+            actNextExac = actNext.get(0);
+        }
 
 
         // 初始化 isvalid 信息
-        ActiveVo activeLiveVo = new ActiveVo(actLive, 1);
-        ActiveVo activeNextVo = new ActiveVo(actNext, 0);
+        ActiveVo activeLiveVo = new ActiveVo(actLiveExac, 1);
+        ActiveVo activeNextVo = new ActiveVo(actNextExac, 0);
 
         //装结果准备返回
-        Map<String, Object> result = new HashMap<>();
+
         result.put("userName", user.getUserName());
         result.put("userCity", user.getUserCity());
 
@@ -78,7 +105,7 @@ public class UserController {
         result.put("nextActInfo", activeNextVo);
 
         //获取系统当前时间
-        SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = sdf.format(new Date());
         result.put("date",str);
         //将所有结果全部返回

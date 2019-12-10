@@ -14,11 +14,33 @@ import java.util.List;
  */
 
 public interface UserMapper {
-
+    /**
+     * 功能描述: 通过管家id查询管家信息
+     * @Param: [User] 活动类
+     * @Return: User
+     * @Author: 段思宇
+     * @Date: 2019/12/10 9:35
+     */
     Users selectUserById(Users users);
 
-    Active selectActByCity(Active active);
 
-    Active selectNextByCity(@Param("city") String city, @Param("nextTime") Date nextTime);
+    /**
+     * 功能描述: 通过相同地区查询出当前可以直接参加的活动信息
+     * @Param: [active] 活动类
+     * @Return: List<Active>
+     * @Author: 段思宇
+     * @Date: 2019/12/10 10:35
+     */
+    List<Active> selectActByCity(Active active);
+
+
+    /**
+     * 功能描述: 通过相同地区查询出当日可以参加的活动信息
+     * @Param: [active] 活动类
+     * @Return: List<Active>
+     * @Author: 段思宇
+     * @Date: 2019/12/10 11:35
+     */
+    List<Active> selectNextByCity(@Param("city") String city, @Param("nextTime") Date nextTime);
 
 }

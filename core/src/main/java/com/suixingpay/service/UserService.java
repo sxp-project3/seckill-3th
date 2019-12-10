@@ -17,8 +17,8 @@ public interface UserService {
 
     Users selectUserById(Users users);
 
-    Active selectActByCity(Active active);
+    List<Active> selectActByCity(Active active);
 
-    Active selectNextByCity(String city, Date nextTime);
+    List<Active> selectNextByCity(String city, Date nextTime);
 
 }
