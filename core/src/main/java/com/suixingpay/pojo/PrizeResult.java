@@ -7,7 +7,7 @@ import java.util.Date;
  * @version 1.0
  * @date 2019/12/9 17:29
  */
-public class Prize {
+public class PrizeResult {
     //奖品表id
     private Integer id;
     //活动id
@@ -21,7 +21,7 @@ public class Prize {
     //创建时间
     private Date createTime;
 
-    public Prize() {
+    public PrizeResult() {
     }
 
     public Integer getId() {
