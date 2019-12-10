@@ -45,4 +45,8 @@ public class PrizeDemoController {
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;
     }
+
+
+
+
 }
