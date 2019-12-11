@@ -10,14 +10,12 @@ import com.suixingpay.service.PrizeDemoService;
 import com.suixingpay.util.SecKillHttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -41,14 +39,16 @@ public class PrizeDemoController {
     @Autowired
     private SecKillHttpUtil secKillHttpUtil;
 
-    @RequestMapping("/rob-demo")
+    @RequestMapping(value = "/rob-demo", method = RequestMethod.POST)
     @ResponseBody
-    public Response robPrizeDemo(@RequestParam(value = "activityId") String activityStringId) {
+    public Response robPrizeDemo(@RequestBody Object param) {
+        Map<String, String> values = (LinkedHashMap<String, String>) param;
+        String activityStringId = values.get("activityId");
         String userStringId = secKillHttpUtil.getToken("token");
         Integer userId = Integer.parseInt(userStringId);
-        // log.info("userId:"+userId);
+         log.info("userId:"+userId);
         Integer activityId = Integer.parseInt(activityStringId);
-        // log.info("activityId:"+activityId);
+         log.info("activityId:"+activityId);
         // 获取管家信息实体
         Manager manager = managerService.searchManagerById(userId);
         // 获取活动信息
