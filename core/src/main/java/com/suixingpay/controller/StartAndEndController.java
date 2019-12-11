@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author zhangleying
  * @version 1.0
@@ -45,5 +47,9 @@ public class StartAndEndController {
         startAndEndService.insertUser();
     }
 
+//    @RequestMapping(value = "activity-result", method = RequestMethod.POST)
+//    public Response activityResult(@RequestBody Map<String, String> param) {
+//        return
+//    }
 
 }
