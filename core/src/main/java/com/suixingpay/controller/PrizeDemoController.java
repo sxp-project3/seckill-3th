@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -40,7 +39,6 @@ public class PrizeDemoController {
     private SecKillHttpUtil secKillHttpUtil;
 
     @RequestMapping(value = "/rob-demo", method = RequestMethod.POST)
-    @ResponseBody
     public Response robPrizeDemo(@RequestBody Map<String, String> param) {
         // Map<String, String> values = (LinkedHashMap<String, String>) param;
         String activityStringId = param.get("activityId");
@@ -66,6 +64,13 @@ public class PrizeDemoController {
             log.info(e.getMessage());
             response = Response.getInstance(CodeEnum.FAIL, e.getMessage());
         }
+        return response;
+    }
+
+    @RequestMapping(value = "/login-demo")
+    public Response fakeLogin() {
+        String result = prizeDemoService.fakeLogin();
+        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;
     }
 }

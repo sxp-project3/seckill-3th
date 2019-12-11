@@ -16,4 +16,6 @@ public interface PrizeDemoService {
     String robPrizeDemo(Active active, Manager manager, String nowDate);
 
     List getList(Integer id);
+
+    String fakeLogin();
 }
