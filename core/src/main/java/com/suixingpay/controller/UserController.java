@@ -43,6 +43,7 @@ public class UserController {
     public Response selectUserById(){
         //通过前端拿到参数
         String userId = secKillHttpUtil.getToken("token");
+        LOGGER.info("获取到的token为[{}]", userId);
         Integer id = Integer.parseInt(userId);
 
         //将拿到的参数，放到对象中
@@ -52,6 +53,7 @@ public class UserController {
 
         //传参判空
         if (id == null){
+            LOGGER.info("当前管家id不存在");
             return  new Response("1","当前管家id不存在",null);
         }
 
@@ -64,15 +66,14 @@ public class UserController {
 
 
         //第二次查询，获取到第一次查询结果做参数
-        LOGGER.info("第二次查询传入的参数为[{}]", active.getCity());
+        LOGGER.info("城市的参数为[{}]", active.getCity());
 
 
         //查询出当前可抢的活动信息
         List<Active> actLive = userService.selectActByCity(active);
 
 
-        //查询当日可参加的活动信息
-        // 获取第二天的时间，只获取到第二天的 00：00：00；
+        // 获取明天的时间，只获取到第二天的 00：00：00；
         Date nextTime = GetNextDay.getDayTime();
 
 
@@ -83,8 +84,8 @@ public class UserController {
         // 当前可立即参加的活动为空，也可以继续执行
         Active actLiveExac = null;
         if (actLive.size() == 0) {
+            //由于查询结果为null,所以把所有的null值放入到active实体类中
             actLiveExac = new Active();
-            result.put("validActInfo", null);
         } else {
             actLiveExac = actLive.get(0);
         }
@@ -92,15 +93,14 @@ public class UserController {
 
         //今日即将参加的活动为空，也可以继续执行
         Active actNextExac = null;
-        if (actNext.size() == 0){
+        if (actNext.size() == 0) {
             actNextExac = new Active();
-            result.put("nextActInfo", null);
         }else {
             actNextExac = actNext.get(0);
         }
 
 
-        // 初始化 isvalid 信息
+        // 初始化 isvalid 信息  isValid = 1 代表当前可立即参加的活动，0为即将可参加的活动
         ActiveVo activeLiveVo = new ActiveVo(actLiveExac, 1);
         ActiveVo activeNextVo = new ActiveVo(actNextExac, 0);
 
