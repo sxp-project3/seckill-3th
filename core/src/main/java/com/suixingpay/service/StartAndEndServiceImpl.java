@@ -103,6 +103,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             Active active= new Active();
             List prizeResultList = prizeDemoService.getList(aId);
             PrizeResult prizeResult = new PrizeResult();
+            List <PrizeResult> list=new ArrayList();
             Iterator it = prizeResultList.iterator();
             while (it.hasNext()) {
                 Date date = new Date();
@@ -112,8 +113,10 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                 prizeResult.setManageId(cat.getManager_id());
                 prizeResult.setPrizeId(cat.getPrize_id());
                 prizeResult.setCreateTime(date);
-                startAndEndMapper.insertPrizeResult(prizeResult);
+                list.add(prizeResult);
+                //startAndEndMapper.insertPrizeResult(prizeResult);
             }
+            startAndEndMapper.insertPrizeResultNew(list);
             Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
             //该场活动奖品无剩余无该场活动,直接修改活动表status
             if (myObjectListRedis.isEmpty()) {

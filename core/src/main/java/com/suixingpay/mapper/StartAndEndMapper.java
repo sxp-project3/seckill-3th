@@ -29,6 +29,9 @@ public interface StartAndEndMapper {
     //插入一条得奖结果表
     Integer insertPrizeResult(PrizeResult prizeResult);
 
+    //插入一条得奖结果表优化版
+    Integer insertPrizeResultNew(@Param("list") List<PrizeResult> list);
+
     Integer insertUser (Users user);
 
     //根据开始结束修改活动表的status

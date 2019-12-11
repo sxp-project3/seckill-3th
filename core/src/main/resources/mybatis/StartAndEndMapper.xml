@@ -110,6 +110,33 @@
 
         </trim>
     </insert>
+    <!-- 动态SQL ：插入一条得奖结果表优化版 -->
+    <insert id="insertPrizeResultNew" parameterType="com.suixingpay.pojo.PrizeResult">
+        insert into seckill_winning_results
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="manageId != null">
+                manage_id,
+            </if>
+            <if test="prizeTime != null and prizeTime !=''">
+                prize_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="prizeId != null">
+                prize_id,
+            </if>
+
+        </trim>
+        values
+            <foreach collection="list" index="index" separator="," item="item">
+                (#{item.activityId},#{item.manageId},#{item.prizeTime},#{item.createTime},#{item.prizeId})
+            </foreach>
+    </insert>
     <insert id="insertUser" parameterType="com.suixingpay.pojo.Users">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
