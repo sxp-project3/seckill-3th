@@ -33,4 +33,7 @@ public interface StartAndEndMapper {
 
     //根据开始结束修改活动表的status
     Integer updateActiveliststatus (Active active);
+
+    // 获取活动中奖记录
+    List<PrizeResult> selectActivityResult(PrizeResult prizeResult);
 }

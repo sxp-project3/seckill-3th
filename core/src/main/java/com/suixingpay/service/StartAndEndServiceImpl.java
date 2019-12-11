@@ -148,4 +148,12 @@ public class StartAndEndServiceImpl implements StartAndEndService {
         }
 
     }
+
+    @Override
+    public Response getActivityResult(Integer aId) {
+        PrizeResult prizeResult = new PrizeResult();
+        prizeResult.setActivityId(aId);
+        List<PrizeResult> result = startAndEndMapper.selectActivityResult(prizeResult);
+        return Response.getInstance(CodeEnum.SUCCESS, result);
+    }
 }
