@@ -48,7 +48,7 @@
     <update id="updateActiveliststatus" parameterType="com.suixingpay.pojo.Active">
         update `activelist`
         set
-        status = #{status}
+            status = #{status}
         where id = #{id}
     </update>
     <!--修改奖品表activity_id字段为0-->
@@ -111,31 +111,20 @@
         </trim>
     </insert>
     <!-- 动态SQL ：插入一条得奖结果表优化版 -->
-    <insert id="insertPrizeResultNew" parameterType="com.suixingpay.pojo.PrizeResult">
+    <insert id="insertPrizeResultNew" parameterType="list">
         insert into seckill_winning_results
-        <trim prefix="(" suffix=")" suffixOverrides=",">
+        (
+        activity_id,
+        manage_id,
+        prize_time,
+        create_time,
+        prize_id
+        )
 
-            <if test="activityId != null">
-                activity_id,
-            </if>
-            <if test="manageId != null">
-                manage_id,
-            </if>
-            <if test="prizeTime != null and prizeTime !=''">
-                prize_time,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="prizeId != null">
-                prize_id,
-            </if>
-
-        </trim>
         values
-            <foreach collection="list" index="index" separator="," item="item">
-                (#{item.activityId},#{item.manageId},#{item.prizeTime},#{item.createTime},#{item.prizeId})
-            </foreach>
+        <foreach collection="prizeResultlist1" index="index" separator="," item="item">
+            (#{item.activityId},#{item.manageId},#{item.prizeTime},#{item.createTime},#{item.prizeId})
+        </foreach>
     </insert>
     <insert id="insertUser" parameterType="com.suixingpay.pojo.Users">
         insert into user

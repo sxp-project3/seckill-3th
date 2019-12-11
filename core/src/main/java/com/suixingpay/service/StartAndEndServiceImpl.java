@@ -101,22 +101,21 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                 return Response.getInstance(CodeEnum.FAIL, "未传参数！");
             }
             Active active= new Active();
-            List prizeResultList = prizeDemoService.getList(aId);
-            PrizeResult prizeResult = new PrizeResult();
-            List <PrizeResult> list=new ArrayList();
-            Iterator it = prizeResultList.iterator();
-            while (it.hasNext()) {
-                Date date = new Date();
-                Cat cat = (Cat) it.next();
+            //获取redis里面的获奖结果
+            List<Cat> prizeResultList = prizeDemoService.getList(aId);
+            List <PrizeResult> prizeResultlist1=new ArrayList();
+
+            for (int i =0 ;i<prizeResultList.size();i++) {
+                Cat cat = prizeResultList.get(i);
+                PrizeResult prizeResult = new PrizeResult();
                 prizeResult.setPrizeTime(cat.getGet_prize_time());
                 prizeResult.setActivityId(aId);
                 prizeResult.setManageId(cat.getManager_id());
                 prizeResult.setPrizeId(cat.getPrize_id());
-                prizeResult.setCreateTime(date);
-                list.add(prizeResult);
-                //startAndEndMapper.insertPrizeResult(prizeResult);
+                prizeResult.setCreateTime(new Date());
+                prizeResultlist1.add(prizeResult);
             }
-            startAndEndMapper.insertPrizeResultNew(list);
+            startAndEndMapper.insertPrizeResultNew(prizeResultlist1);
             Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
             //该场活动奖品无剩余无该场活动,直接修改活动表status
             if (myObjectListRedis.isEmpty()) {

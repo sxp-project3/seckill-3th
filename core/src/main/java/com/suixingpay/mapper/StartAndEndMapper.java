@@ -30,7 +30,7 @@ public interface StartAndEndMapper {
     Integer insertPrizeResult(PrizeResult prizeResult);
 
     //插入一条得奖结果表优化版
-    Integer insertPrizeResultNew(@Param("list") List<PrizeResult> list);
+    Integer insertPrizeResultNew(@Param("prizeResultlist1") List<PrizeResult> prizeResultlist1);
 
     Integer insertUser (Users user);
 
