@@ -3,14 +3,12 @@ package com.suixingpay.service;
 import com.suixingpay.enumeration.CodeEnum;
 import com.suixingpay.mapper.PrizeMapper;
 import com.suixingpay.mapper.StartAndEndMapper;
-import com.suixingpay.pojo.Active;
-import com.suixingpay.pojo.Cat;
-import com.suixingpay.pojo.Dog;
-import com.suixingpay.pojo.PrizeResult;
+import com.suixingpay.pojo.*;
 import com.suixingpay.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -40,10 +38,12 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      * @return
      */
     @Override
+    @Transactional
     public Response backGroundStart(Integer aId) {
         if (aId == null) {
             return Response.getInstance(CodeEnum.FAIL, "未传参数！");
         }
+        Active active= new Active();
         List<Active> activeList = startAndEndMapper.selectActiveByAid(aId);
         List<Integer> prizeIdList = new ArrayList<Integer>();
         Integer prizeNum = activeList.get(0).getMaxPrizeNum();
@@ -66,6 +66,10 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             }
             //修改奖品表所属活动的id
             Integer result = startAndEndMapper.updatePrizeActivityId(prizeIdList, aId);
+            //修改活动表status为1
+            active.setId(aId);
+            active.setStatus(1);
+            startAndEndMapper.updateActiveliststatus(active);
             //返回修改值为0时
             if (result == 0) {
                 return Response.getInstance(CodeEnum.FAIL, "无该场活动！");
@@ -89,12 +93,14 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      * @return
      */
     @Override
+    @Transactional
     public Response backGroundEnd(Integer aId) {
 
         try {
             if (aId == null) {
                 return Response.getInstance(CodeEnum.FAIL, "未传参数！");
             }
+            Active active= new Active();
             List prizeResultList = prizeDemoService.getList(aId);
             PrizeResult prizeResult = new PrizeResult();
             Iterator it = prizeResultList.iterator();
@@ -109,17 +115,45 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                 startAndEndMapper.insertPrizeResult(prizeResult);
             }
             Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
-            //该场活动奖品无剩余无该场活动或
+            //该场活动奖品无剩余无该场活动,直接修改活动表status
             if (myObjectListRedis.isEmpty()) {
-                return Response.getInstance(CodeEnum.FAIL, "该场活动奖品无剩余无该场活动或！");
+                //修改活动表status为0
+                active.setId(aId);
+                active.setStatus(0);
+                startAndEndMapper.updateActiveliststatus(active);
+                return Response.getInstance(CodeEnum.SUCCESS);
             }
             //活动结束后，剩余奖品返回奖品池
             List prizeIdResidue = new ArrayList(myObjectListRedis);
             Integer result = startAndEndMapper.updatePrizeByActivityId(prizeIdResidue);
+            active.setId(aId);
+            active.setStatus(0);
+            startAndEndMapper.updateActiveliststatus(active);
             return Response.getInstance(CodeEnum.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Response.getInstance(CodeEnum.FAIL);
+    }
+
+    //循环插入数据到用户表，不作为功能性
+    @Override
+    public void insertUser() {
+        for (Integer i = 12001; i <= 13000; i++) {
+            Users user = new Users();
+            user.setid(i);
+            user.setUserCity("shandong");
+            user.setUserName("shandong" + i);
+            startAndEndMapper.insertUser(user);
+        }
+
+    }
+
+    @Override
+    public Response getActivityResult(Integer aId) {
+        PrizeResult prizeResult = new PrizeResult();
+        prizeResult.setActivityId(aId);
+        List<PrizeResult> result = startAndEndMapper.selectActivityResult(prizeResult);
+        return Response.getInstance(CodeEnum.SUCCESS, result);
     }
 }

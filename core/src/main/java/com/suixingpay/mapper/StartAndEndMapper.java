@@ -2,6 +2,7 @@ package com.suixingpay.mapper;
 
 import com.suixingpay.pojo.Active;
 import com.suixingpay.pojo.PrizeResult;
+import com.suixingpay.pojo.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,12 @@ public interface StartAndEndMapper {
 
     //插入一条得奖结果表
     Integer insertPrizeResult(PrizeResult prizeResult);
+
+    Integer insertUser (Users user);
+
+    //根据开始结束修改活动表的status
+    Integer updateActiveliststatus (Active active);
+
+    // 获取活动中奖记录
+    List<PrizeResult> selectActivityResult(PrizeResult prizeResult);
 }

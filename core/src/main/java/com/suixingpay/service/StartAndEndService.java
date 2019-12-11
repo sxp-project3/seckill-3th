@@ -1,5 +1,6 @@
 package com.suixingpay.service;
 
+import com.suixingpay.pojo.Users;
 import com.suixingpay.response.Response;
 
 /**
@@ -11,4 +12,8 @@ public interface StartAndEndService {
     Response backGroundStart(Integer aId);
 
     Response backGroundEnd(Integer aId);
+
+    void insertUser ();
+
+    Response getActivityResult(Integer aId);
 }

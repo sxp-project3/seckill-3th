@@ -43,7 +43,7 @@ public class UserController {
     public Response selectUserById() {
         //通过前端拿到参数
         String userId = secKillHttpUtil.getToken("token");
-        LOGGER.info("获取到的token为[{}]", userId);
+        // LOGGER.info("获取到的token为[{}]", userId);
         Integer id = Integer.parseInt(userId);
 
         //将拿到的参数，放到对象中
@@ -66,7 +66,7 @@ public class UserController {
 
 
         //第二次查询，获取到第一次查询结果做参数
-        LOGGER.info("城市的参数为[{}]", active.getCity());
+        // LOGGER.info("城市的参数为[{}]", active.getCity());
 
 
         //查询出当前可抢的活动信息

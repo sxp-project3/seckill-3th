@@ -10,10 +10,7 @@ import com.suixingpay.service.PrizeDemoService;
 import com.suixingpay.util.SecKillHttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,9 +38,10 @@ public class PrizeDemoController {
     @Autowired
     private SecKillHttpUtil secKillHttpUtil;
 
-    @RequestMapping("/rob-demo")
-    @ResponseBody
-    public Response robPrizeDemo(@RequestParam(value = "activityId") String activityStringId) {
+    @RequestMapping(value = "/rob-demo", method = RequestMethod.POST)
+    public Response robPrizeDemo(@RequestBody Map<String, String> param) {
+        // Map<String, String> values = (LinkedHashMap<String, String>) param;
+        String activityStringId = param.get("activityId");
         String userStringId = secKillHttpUtil.getToken("token");
         Integer userId = Integer.parseInt(userStringId);
         // log.info("userId:"+userId);
@@ -57,7 +55,7 @@ public class PrizeDemoController {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = dateFormat.format(now);
-        Map<String, Object> prizeResult = null;
+        // Map<String, Object> prizeResult = null;
         Response<Map<String, HashMap>> response = null;
         try {
             String prizeStringResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
@@ -66,6 +64,13 @@ public class PrizeDemoController {
             log.info(e.getMessage());
             response = Response.getInstance(CodeEnum.FAIL, e.getMessage());
         }
+        return response;
+    }
+
+    @RequestMapping(value = "/login-demo")
+    public Response fakeLogin() {
+        String result = prizeDemoService.fakeLogin();
+        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;
     }
 }

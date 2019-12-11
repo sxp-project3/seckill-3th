@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author zhangleying
  * @version 1.0
@@ -38,4 +40,16 @@ public class StartAndEndController {
         return startAndEndService.backGroundEnd(active.getId());
 
     }
+
+    /*循环插入数据到用户表，不作为功能性*/
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public void insert() {
+        startAndEndService.insertUser();
+    }
+
+//    @RequestMapping(value = "activity-result", method = RequestMethod.POST)
+//    public Response activityResult(@RequestBody Map<String, String> param) {
+//        return
+//    }
+
 }
