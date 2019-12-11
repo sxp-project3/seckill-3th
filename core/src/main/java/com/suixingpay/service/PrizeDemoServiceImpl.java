@@ -116,6 +116,16 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
 
     }
 
+    @Override
+    public String fakeLogin() {
+        String city = "beijing";
+        for (int i = 10001; i<11000; i++) {
+            redisTemplate.opsForSet().add("fakeLogin" + city, Integer.toString(i));
+        }
+        Object loginToken = redisTemplate.opsForSet().pop("fakeLogin" + city);
+        return loginToken.toString();
+    }
+
     private void demo() {
 //        String prize_pool_key = PRIZE_POOL + active.getId();
 
