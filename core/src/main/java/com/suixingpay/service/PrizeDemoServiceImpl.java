@@ -40,7 +40,9 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         String prize_member_list = PRIZE_MEMBER_LIST + active.getId();
 
         // 判断城市相同
-        if (active.getCity() != manager.getUserCity()) {
+        // log.info(active.getCity());
+        // log.info(manager.getUserCity());
+        if (!active.getCity().equals(manager.getUserCity())) {
             throw new RuntimeException("鑫管家不能参加此城市的活动");
         }
         // 判断活动时间

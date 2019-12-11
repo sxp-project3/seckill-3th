@@ -7,22 +7,15 @@ import com.suixingpay.response.Response;
 import com.suixingpay.service.ActiveService;
 import com.suixingpay.service.ManagerService;
 import com.suixingpay.service.PrizeDemoService;
-import com.suixingpay.service.UserService;
 import com.suixingpay.util.SecKillHttpUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.activity.ActivityCompletedException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -34,7 +27,6 @@ import java.util.Map;
 @Slf4j
 public class PrizeDemoController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private PrizeDemoService prizeDemoService;
 
@@ -47,9 +39,11 @@ public class PrizeDemoController {
     @Autowired
     private SecKillHttpUtil secKillHttpUtil;
 
-    @RequestMapping("/rob-demo")
+    @RequestMapping(value = "/rob-demo", method = RequestMethod.POST)
     @ResponseBody
-    public Response robPrizeDemo(@RequestParam(value = "activityId") String activityStringId) {
+    public Response robPrizeDemo(@RequestBody Map<String, String> param) {
+        // Map<String, String> values = (LinkedHashMap<String, String>) param;
+        String activityStringId = param.get("activityId");
         String userStringId = secKillHttpUtil.getToken("token");
         Integer userId = Integer.parseInt(userStringId);
         // log.info("userId:"+userId);
@@ -63,11 +57,10 @@ public class PrizeDemoController {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = dateFormat.format(now);
-        Map<String, Object> prizeResult = null;
+        // Map<String, Object> prizeResult = null;
         Response<Map<String, HashMap>> response = null;
         try {
             String prizeStringResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
-            // prizeResult.put("prizeResult", prizeStringResult);
             response = Response.getInstance(CodeEnum.SUCCESS, prizeStringResult);
         } catch (RuntimeException e) {
             log.info(e.getMessage());

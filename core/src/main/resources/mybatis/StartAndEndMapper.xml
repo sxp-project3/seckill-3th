@@ -44,6 +44,13 @@
             </foreach>
         </if>
     </update>
+    <!--根据开始结束修改活动表的status-->
+    <update id="updateActiveliststatus" parameterType="com.suixingpay.pojo.Active">
+        update `activelist`
+        set
+        status = #{status}
+        where id = #{id}
+    </update>
     <!--修改奖品表activity_id字段为0-->
     <update id="updatePrizeByActivityId">
         update `prize`
@@ -101,6 +108,31 @@
                 #{prizeId,jdbcType=INTEGER},
             </if>
 
+        </trim>
+    </insert>
+    <insert id="insertUser" parameterType="com.suixingpay.pojo.Users">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null and userName !=''">
+                user_name,
+            </if>
+            <if test="userCity != null  and userCity !=''">
+                user_city,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null and userName !=''">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userCity != null  and userCity !=''">
+                #{userCity,jdbcType=VARCHAR},
+            </if>
         </trim>
     </insert>
 </mapper>

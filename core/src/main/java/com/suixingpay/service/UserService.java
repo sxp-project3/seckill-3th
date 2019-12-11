@@ -15,10 +15,25 @@ import java.util.List;
 
 public interface UserService {
 
+
+    /**
+     * 功能描述: <查询管家信息>
+     * @Return: com.suixingpay.pojo.Users
+     */
     Users selectUserById(Users users);
 
-    Active selectActByCity(Active active);
 
-    Active selectNextByCity(String city, Date nextTime);
+    /**
+     * 功能描述: <查询可立即参加的活动信息>
+     * @Return: com.suixingpay.pojo.Active
+     */
+    List<Active> selectActByCity(Active active);
+
+
+    /**
+     * 功能描述: <查询当日可参加的活动信息>
+     * @Return: com.suixingpay.pojo.Active
+     */
+    List<Active> selectNextByCity(String city, Date nextTime);
 
 }

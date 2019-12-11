@@ -38,4 +38,12 @@ public class StartAndEndController {
         return startAndEndService.backGroundEnd(active.getId());
 
     }
+
+    /*循环插入数据到用户表，不作为功能性*/
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public void insert() {
+        startAndEndService.insertUser();
+    }
+
+
 }
