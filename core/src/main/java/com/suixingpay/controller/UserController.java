@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * @author 段思宇
  * @date 2019/12/9 17:16
- *@description 在所在地相同的前提下判断当前时间是否可以参加活动
+ * @description 在所在地相同的前提下判断当前时间是否可以参加活动
  */
 
 @RestController
@@ -40,7 +40,7 @@ public class UserController {
     private SecKillHttpUtil secKillHttpUtil;
 
     @RequestMapping(value = "/select", method = RequestMethod.POST)
-    public Response selectUserById(){
+    public Response selectUserById() {
         //通过前端拿到参数
         String userId = secKillHttpUtil.getToken("token");
         // LOGGER.info("获取到的token为[{}]", userId);
@@ -52,9 +52,9 @@ public class UserController {
         Map<String, Object> result = new HashMap<>();
 
         //传参判空
-        if (id == null){
+        if (id == null) {
             LOGGER.info("当前管家id不存在");
-            return  new Response("1","当前管家id不存在",null);
+            return new Response("1", "当前管家id不存在", null);
         }
 
 
@@ -95,7 +95,7 @@ public class UserController {
         Active actNextExac = null;
         if (actNext.size() == 0) {
             actNextExac = new Active();
-        }else {
+        } else {
             actNextExac = actNext.get(0);
         }
 
@@ -114,7 +114,7 @@ public class UserController {
         //获取系统当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = sdf.format(new Date());
-        result.put("date",str);
+        result.put("date", str);
         //将所有结果全部返回
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
         return response;

@@ -7,7 +7,7 @@
         <result property="userCity" column="user_city"/>
     </resultMap>
     <select id="selectUserById" parameterType="int" resultMap="result">
-    SELECT id, user_name, user_city from user where id=#{id};
+     SELECT id, user_name, user_city from user where id=#{id};
   </select>
 
 </mapper>

@@ -10,6 +10,13 @@
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
     </resultMap>
+    <resultMap id="PrizeResult" type="com.suixingpay.pojo.PrizeResult">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+        <result column="manage_id" property="manageId" />
+        <result column="prize_id" property="prizeId" />
+        <result column="prize_time" property="prizeTime" />
+    </resultMap>
     <!--数据库字段集合 - SQL 查询字段-->
     <sql id="Active_Column_List">
         id
@@ -151,4 +158,9 @@
             </if>
         </trim>
     </insert>
+    <select id="selectActivityResult" parameterType="com.suixingpay.pojo.PrizeResult" resultMap="PrizeResult">
+        select activity_id, manage_id, prize_id, prize_time
+        from `seckill_winning_results`
+        where activity_id=#{activityId,jdbcType=INTEGER}
+    </select>
 </mapper>
