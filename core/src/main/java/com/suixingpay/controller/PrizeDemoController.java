@@ -46,9 +46,9 @@ public class PrizeDemoController {
         String activityStringId = param.get("activityId");
         String userStringId = secKillHttpUtil.getToken("token");
         Integer userId = Integer.parseInt(userStringId);
-         log.info("userId:"+userId);
+        // log.info("userId:"+userId);
         Integer activityId = Integer.parseInt(activityStringId);
-         log.info("activityId:"+activityId);
+        // log.info("activityId:"+activityId);
         // 获取管家信息实体
         Manager manager = managerService.searchManagerById(userId);
         // 获取活动信息
@@ -57,7 +57,7 @@ public class PrizeDemoController {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = dateFormat.format(now);
-        Map<String, Object> prizeResult = null;
+        // Map<String, Object> prizeResult = null;
         Response<Map<String, HashMap>> response = null;
         try {
             String prizeStringResult = prizeDemoService.robPrizeDemo(active, manager, nowDate);
