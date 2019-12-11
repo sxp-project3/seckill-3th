@@ -41,9 +41,9 @@ public class PrizeDemoController {
 
     @RequestMapping(value = "/rob-demo", method = RequestMethod.POST)
     @ResponseBody
-    public Response robPrizeDemo(@RequestBody Object param) {
-        Map<String, String> values = (LinkedHashMap<String, String>) param;
-        String activityStringId = values.get("activityId");
+    public Response robPrizeDemo(@RequestBody Map<String, String> param) {
+        // Map<String, String> values = (LinkedHashMap<String, String>) param;
+        String activityStringId = param.get("activityId");
         String userStringId = secKillHttpUtil.getToken("token");
         Integer userId = Integer.parseInt(userStringId);
          log.info("userId:"+userId);
