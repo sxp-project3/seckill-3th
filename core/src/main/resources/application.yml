@@ -32,7 +32,7 @@ spring:
 
   # Redis 配置
   redis:
-    host: 172.16.41.67
+    host: 172.16.41.92
     port: 6379
     pool:
       maxWait: 1500
