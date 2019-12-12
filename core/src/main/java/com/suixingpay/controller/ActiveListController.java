@@ -9,11 +9,9 @@ import com.suixingpay.util.MiaoShaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +41,6 @@ public class ActiveListController {
     @Autowired
     GlobalExceptionHandler globalExceptionHandler;
 
-
     /**
      * 功能描述: <br>
      * 〈〉
@@ -57,8 +54,7 @@ public class ActiveListController {
     public Response addActive(@RequestBody Active active) {
         log.info("#######################"+active);
         try {
-            String msg="";
-            activeService.addActive(active);
+
             Map<String,String> result=new HashMap<>();
             String title=active.getTitle();
             String city=active.getCity();
@@ -68,28 +64,46 @@ public class ActiveListController {
             active.setCreateTime(new Date());
 
             if (MiaoShaUtil.isBlank(title)){
-                result.put("标题不能为空",msg);
+                result.put("提示信息","标题不能为空");
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (MiaoShaUtil.isBlank(city)){
-                result.put("城市不能为空",msg);
+                result.put("提示信息","城市不能为空");
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (maxPrizeNum==0||maxPrizeNum<0){
-                result.put("数量不能为空",msg);
+                result.put("提示信息","数量不能为空");
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (startTime==null){
-                result.put("开始时间不能为空",msg);
+                result.put("提示信息","开始时间不能为空");
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (endTime==null){
-                result.put("结束时间不能为空",msg);
+                result.put("提示信息","结束时间不能为空");
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
-            result.put("添加成功",msg);
-
-            return Response.getInstance(CodeEnum.SUCCESS,result);
+            if(startTime.equals(endTime)){
+                result.put("提示信息","开始结束时间不能相同");
+                return Response.getInstance(CodeEnum.FAIL,result);
+            }
+            if (startTime.after(endTime)){
+                result.put("提示信息","开始时间不能大于结束时间");
+                return Response.getInstance(CodeEnum.FAIL,result);
+            }
+            List<Active> activeList=activeService.selectAll();
+            for (Active as:activeList){
+                Date oldEndTime=as.getEndTime();
+                Date oldStartTime=as.getStartTime();
+                if(!((startTime.before(endTime)&&endTime.before(oldStartTime)) || (startTime.before(endTime)&&startTime.after(oldEndTime))))
+                {
+                    result.put("提示信息","时间冲突");
+                    return Response.getInstance(CodeEnum.FAIL,result);
+                }
+            }
+                activeService.addActive(active);
+                result.put("提示信息", "添加成功");
+                return Response.getInstance(CodeEnum.SUCCESS, result);
         }catch (Exception e){
             return globalExceptionHandler.exceptionErrorHandler(e) ;
         }
@@ -117,5 +131,22 @@ public class ActiveListController {
         }
     }
 
-
+    /**
+     * 功能描述: <根据日期添加活动>
+     * 〈〉
+     * @Param: [date]
+     * @Return: com.suixingpay.response.Response
+     * @Author: luyun
+     * @Date: 2019/12/11 11:22
+     */
+    @RequestMapping("/addData")
+    @ResponseBody
+    public Response addData(@RequestParam("date") Date date,@RequestParam("city") String city ){
+        try {
+            activeService.addData(date,city);
+            return Response.getInstance(CodeEnum.SUCCESS);
+        }catch (Exception e){
+            return Response.getInstance(CodeEnum.FAIL);
+        }
+    }
 }
