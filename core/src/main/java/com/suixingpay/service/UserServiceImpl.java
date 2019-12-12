@@ -29,9 +29,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Active> selectActByCity(Active active, Date date) {
+    public List<Active> selectActByCity(String city, Date date) {
 
-        List<Active> act = userMapper.selectActByCity(active, date);
+        List<Active> act = userMapper.selectActByCity(city, date);
         return act;
     }
 

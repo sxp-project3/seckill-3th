@@ -69,9 +69,12 @@ public class UserController {
 //         LOGGER.info("城市的参数为[{}]", active.getCity());
 
 
-        //查询出当前可抢的活动信息
+      //获取系统当前时间做查询参数
         Date date = new Date();
-        List<Active> actLive = userService.selectActByCity(active, date);
+
+
+        //查询出当前可抢的活动信息
+        List<Active> actLive = userService.selectActByCity(active.getCity(), date);
 
 
         // 获取明天的时间，只获取到第二天的 00：00：00；
@@ -114,7 +117,7 @@ public class UserController {
 
         //获取系统当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = sdf.format(new Date());
+        String str = sdf.format(date);
         result.put("date", str);
         //将所有结果全部返回
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);
