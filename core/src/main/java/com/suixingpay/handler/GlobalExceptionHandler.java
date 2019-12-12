@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.ConstraintDeclarationException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Set;
@@ -101,4 +102,5 @@ public class GlobalExceptionHandler {
         LOGGER.error(sb.toString());
         return Response.getInstance(CodeEnum.FAIL, sb.toString());
     }
+
 }

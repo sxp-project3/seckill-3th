@@ -5,7 +5,9 @@ import com.suixingpay.mapper.PrizeMapper;
 import com.suixingpay.mapper.StartAndEndMapper;
 import com.suixingpay.pojo.*;
 import com.suixingpay.response.Response;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,6 @@ import java.util.*;
  * @date 2019/12/9 17:04
  */
 @Service
-@Validated
 public class StartAndEndServiceImpl implements StartAndEndService {
     @Autowired
     private StartAndEndMapper startAndEndMapper;
@@ -29,8 +30,6 @@ public class StartAndEndServiceImpl implements StartAndEndService {
     private PrizeMapper prizeMapper;
     @Autowired
     private PrizeDemoService prizeDemoService;
-    @Autowired
-    private StartAndEndService startAndEndService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -45,7 +44,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      */
     @Override
     @Transactional
-    public Response backGroundStart(@Valid @NotNull(message = "活动 id 为空！") Integer aId) {
+    public Response backGroundStart(Integer aId) {
         Active active = new Active();
         List<Active> activeList = startAndEndMapper.selectActiveByAid(aId);
         List<Integer> prizeIdList = new ArrayList<Integer>();
@@ -97,7 +96,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      */
     @Override
     @Transactional
-    public Response backGroundEnd(@Valid @NotNull(message = "活动 id 为空！") Integer aId) {
+    public Response backGroundEnd( Integer aId) {
 
         try {
             if (aId == null) {
@@ -108,7 +107,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             List<Cat> prizeResultList = prizeDemoService.getList(aId);
             //redis里面没有值，那么只执行改变奖品表所属活动id恢复为0，不执行添加功能
             if (prizeResultList.size() == 0) {
-                startAndEndService.updateStatus(aId);
+                updateStatus(aId);
             } else {
                 List<PrizeResult> prizeResultlist1 = new ArrayList();
 
@@ -123,7 +122,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                     prizeResultlist1.add(prizeResult);
                 }
                 startAndEndMapper.insertPrizeResultNew(prizeResultlist1);
-                startAndEndService.updateStatus(aId);
+                updateStatus(aId);
             }
         } catch (Exception e) {
             e.printStackTrace();
