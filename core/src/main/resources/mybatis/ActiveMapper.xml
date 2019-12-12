@@ -13,19 +13,17 @@
             <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-
-
-
     <insert id="addActive" parameterType="com.suixingpay.pojo.Active">
         insert  into activeList (id,title,status,city,start_time,end_time,max_prize_num,create_time)
         values (#{id},#{title},#{status},#{city},#{startTime},#{endTime},#{maxPrizeNum},#{createTime})
+    </insert>
 
-
-
+    <insert id="addData" parameterType="com.suixingpay.pojo.Active" useGeneratedKeys="true" keyProperty="id">
+        insert  into activeList (title,status,city,start_time,end_time,max_prize_num)
+        values (#{title},#{status},#{city},#{startTime},#{endTime},#{maxPrizeNum})
     </insert>
    <select id="selectAll"  resultMap="activeMap" >
        select id,title,status,city,start_time,end_time,max_prize_num from activeList
-
-
    </select>
+
 </mapper>

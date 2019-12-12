@@ -2,6 +2,8 @@ package com.suixingpay.service;
 
 import com.suixingpay.pojo.Active;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,15 @@ public interface ActiveService {
      * @Date: 2019/12/9 19:33
      */
     List<Active> selectAll();
+    /**
+     * 功能描述: <根据城市添加一个整点活动>
+     * 〈〉
+     * @Param: [city]
+     * @Author: luyun
+     * @Date: 2019/12/11 10:36
+     */
+    void addData(Date date,String city);
+
 
 
 }
