@@ -26,4 +26,8 @@
        select id,title,status,city,start_time,end_time,max_prize_num from activeList
    </select>
 
+    <select id="selectOneById" resultMap="activeMap">
+        select id,title,status,city,start_time,end_time,max_prize_num
+        from activelist where id=#{id,jdbcType=INTEGER}
+    </select>
 </mapper>

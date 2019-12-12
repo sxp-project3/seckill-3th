@@ -3,7 +3,7 @@ server:
 
 # mybatis 基本配置
 mybatis:
-  mapper-locations: classpath*:mybatis/*.xml
+  mapper-locations: classpath:mybatis/*.xml
   type-aliases-package: com.suixingpay.pojo
   configuration:
     map-underscore-to-camel-case: true
@@ -32,7 +32,7 @@ spring:
 
   # Redis 配置
   redis:
-    host: 172.16.41.92
+    host: 172.16.41.67
     port: 6379
     pool:
       maxWait: 1500

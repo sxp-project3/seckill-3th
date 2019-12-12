@@ -1,10 +1,10 @@
 package com.suixingpay.service;
 
 
-import com.suixingpay.enumeration.CodeEnum;
+import com.suixingpay.pojo.Active;
 import com.suixingpay.pojo.Users;
-import com.suixingpay.response.Response;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,5 +14,26 @@ import java.util.List;
  */
 
 public interface UserService {
-    Response<CodeEnum> selectUserById(Users users);
+
+
+    /**
+     * 功能描述: <查询管家信息>
+     * @Return: com.suixingpay.pojo.Users
+     */
+    Users selectUserById(Users users);
+
+
+    /**
+     * 功能描述: <查询可立即参加的活动信息>
+     * @Return: com.suixingpay.pojo.Active
+     */
+    List<Active> selectActByCity(Active active);
+
+
+    /**
+     * 功能描述: <查询当日可参加的活动信息>
+     * @Return: com.suixingpay.pojo.Active
+     */
+    List<Active> selectNextByCity(String city, Date nextTime);
+
 }

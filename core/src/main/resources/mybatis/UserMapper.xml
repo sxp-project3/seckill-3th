@@ -5,14 +5,9 @@
         <result property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="userCity" column="user_city"/>
-        <result property="title" column="title"/>
-        <result property="startTime" column="start_time"/>
-        <result property="endTime" column="end_time"/>
     </resultMap>
-	<select id="selectUserById" parameterType="int" resultMap="result">
-    SELECT id, user_name, user_city from user where id=#{id};
+    <select id="selectUserById" parameterType="int" resultMap="result">
+     SELECT id, user_name, user_city from user where id=#{id};
   </select>
-
-
 
 </mapper>

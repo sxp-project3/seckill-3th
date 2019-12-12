@@ -44,6 +44,13 @@ public interface ActiveService {
      */
     void addData(Date date,String city);
 
-
-
+    /**
+     * 功能描述: <根据id获得单挑活动信息>
+     * 〈〉
+     * @Param: [id]
+     * @Return: com.suixingpay.pojo.Active
+     * @Author: luyun
+     * @Date: 2019/12/12 10:53
+     */
+    Active getOneById(int id);
 }

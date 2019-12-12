@@ -5,7 +5,6 @@ import com.suixingpay.pojo.Active;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 /**
  * 功能描述: <活动Mapper>
@@ -34,6 +33,15 @@ public interface ActiveMapper {
      * @Date: 2019/12/10 9:35
      */
     List<Active> selectAll();
+    /**
+     * 功能描述: <根据id获得单条活动信息>
+     * 〈〉
+     * @Param: [id]
+     * @Return: com.suixingpay.pojo.Active
+     * @Author: kongjian
+     * @Date: 2019/12/12 10:52
+     */
+    Active selectOneById(int id);
 
     /**
      * 功能描述: <根据城市添加整点活动>

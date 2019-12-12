@@ -41,7 +41,6 @@ public class ActiveListController {
     @Autowired
     GlobalExceptionHandler globalExceptionHandler;
 
-
     /**
      * 功能描述: <br>
      * 〈〉
@@ -149,12 +148,5 @@ public class ActiveListController {
         }catch (Exception e){
             return Response.getInstance(CodeEnum.FAIL);
         }
-
-
-
-
-
     }
-
-
 }

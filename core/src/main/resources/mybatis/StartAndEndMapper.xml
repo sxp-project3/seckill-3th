@@ -10,9 +10,17 @@
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
     </resultMap>
+    <resultMap id="PrizeResult" type="com.suixingpay.pojo.PrizeResult">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+        <result column="manage_id" property="manageId" />
+        <result column="prize_id" property="prizeId" />
+        <result column="prize_time" property="prizeTime" />
+    </resultMap>
     <!--数据库字段集合 - SQL 查询字段-->
     <sql id="Active_Column_List">
-        id,
+        id
+        ,
         title,
         status,
         city,
@@ -22,11 +30,137 @@
         create_time,
         update_time
     </sql>
-    <!--根据活动id,查找该活动奖品数量-->
+    <!--根据活动id,查找该活动信息-->
     <select id="selectActiveByAid" parameterType="int" resultMap="ActiveMap">
         SELECT
         <include refid="Active_Column_List"/>
         FROM activelist
         WHERE id = #{id}
+    </select>
+
+    <!--修改奖品表activity_id字段为参与活动id-->
+    <update id="updatePrizeActivityId">
+        update `prize`
+        set
+        activity_id = #{activityId}
+        where 1 = 1
+        <if test="prizeIdList != null">
+            and id in
+            <foreach collection="prizeIdList" item="prizeIdNum" open="(" close=")" separator=",">
+                #{prizeIdNum}
+            </foreach>
+        </if>
+    </update>
+    <!--根据开始结束修改活动表的status-->
+    <update id="updateActiveliststatus" parameterType="com.suixingpay.pojo.Active">
+        update `activelist`
+        set
+            status = #{status}
+        where id = #{id}
+    </update>
+    <!--修改奖品表activity_id字段为0-->
+    <update id="updatePrizeByActivityId">
+        update `prize`
+        set
+        activity_id = 0
+        where 1 = 1
+        <if test="prizeIdResidue != null">
+            and id in
+            <foreach collection="prizeIdResidue" item="prizeIdNum" open="(" close=")" separator=",">
+                #{prizeIdNum}
+            </foreach>
+        </if>
+    </update>
+    <!-- 动态SQL ：插入一条得奖结果表 -->
+    <insert id="insertPrizeResult" parameterType="com.suixingpay.pojo.PrizeResult">
+        insert into seckill_winning_results
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="manageId != null">
+                manage_id,
+            </if>
+            <if test="prizeTime != null and prizeTime !=''">
+                prize_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="prizeId != null">
+                prize_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="manageId != null">
+                #{manageId,jdbcType=INTEGER},
+            </if>
+            <if test="prizeTime != null and prizeTime !=''">
+                #{prizeTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="prizeId != null">
+                #{prizeId,jdbcType=INTEGER},
+            </if>
+
+        </trim>
+    </insert>
+    <!-- 动态SQL ：插入一条得奖结果表优化版 -->
+    <insert id="insertPrizeResultNew" parameterType="list">
+        insert into seckill_winning_results
+        (
+        activity_id,
+        manage_id,
+        prize_time,
+        create_time,
+        prize_id
+        )
+
+        values
+        <foreach collection="prizeResultlist1" index="index" separator="," item="item">
+            (#{item.activityId},#{item.manageId},#{item.prizeTime},#{item.createTime},#{item.prizeId})
+        </foreach>
+    </insert>
+    <insert id="insertUser" parameterType="com.suixingpay.pojo.Users">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null and userName !=''">
+                user_name,
+            </if>
+            <if test="userCity != null  and userCity !=''">
+                user_city,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null and userName !=''">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userCity != null  and userCity !=''">
+                #{userCity,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectActivityResult" parameterType="com.suixingpay.pojo.PrizeResult" resultMap="PrizeResult">
+        select activity_id, manage_id, prize_id, prize_time
+        from `seckill_winning_results`
+        where activity_id=#{activityId,jdbcType=INTEGER}
     </select>
 </mapper>

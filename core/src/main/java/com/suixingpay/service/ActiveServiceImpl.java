@@ -56,7 +56,18 @@ public class ActiveServiceImpl implements ActiveService {
         List<Active> activeList=activeMapper.selectAll();
         return activeList;
     }
-
+    /**
+     * 功能描述: <根据id获得单条活动信息>
+     * 〈〉
+     * @Param: [id]
+     * @Return: com.suixingpay.pojo.Active
+     * @Author: luyun
+     * @Date: 2019/12/12 10:54
+     */
+    @Override
+    public Active getOneById(int id) {
+        return activeMapper.selectOneById(id);
+    }
     /**
      * 功能描述: <根据日期添加时间>
      * 〈〉
