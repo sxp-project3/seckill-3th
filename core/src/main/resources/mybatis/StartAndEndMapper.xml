@@ -159,7 +159,7 @@
         </trim>
     </insert>
     <select id="selectActivityResult" parameterType="com.suixingpay.pojo.PrizeResult" resultMap="PrizeResult">
-        select activity_id, manage_id, prize_id, prize_time
+        select id, status, activity_id, manage_id, prize_id, prize_time
         from `seckill_winning_results`
         where activity_id=#{activityId,jdbcType=INTEGER}
     </select>

@@ -47,9 +47,11 @@ public class StartAndEndController {
         startAndEndService.insertUser();
     }
 
-//    @RequestMapping(value = "activity-result", method = RequestMethod.POST)
-//    public Response activityResult(@RequestBody Map<String, String> param) {
-//        return
-//    }
+    @RequestMapping(value = "/activity-result", method = RequestMethod.POST)
+    public Response activityResult(@RequestBody Map<String, String> param) {
+        String activityStringId = param.get("activityId");
+        Integer activityId = Integer.parseInt(activityStringId);
+        return startAndEndService.getActivityResult(activityId);
+    }
 
 }
