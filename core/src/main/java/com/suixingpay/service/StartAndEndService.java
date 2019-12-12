@@ -12,7 +12,7 @@ public interface StartAndEndService {
     Response backGroundStart(Integer aId);
 
     Response backGroundEnd(Integer aId);
-
+    Response updateStatus(Integer aId);
     void insertUser ();
 
     Response getActivityResult(Integer aId);

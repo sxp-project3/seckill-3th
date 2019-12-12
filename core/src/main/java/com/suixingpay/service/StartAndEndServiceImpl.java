@@ -26,6 +26,8 @@ public class StartAndEndServiceImpl implements StartAndEndService {
     @Autowired
     private PrizeDemoService prizeDemoService;
     @Autowired
+    private StartAndEndService startAndEndService;
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
 
@@ -100,9 +102,13 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             if (aId == null) {
                 return Response.getInstance(CodeEnum.FAIL, "未传参数！");
             }
-            Active active= new Active();
+            //Active active= new Active();
             //获取redis里面的获奖结果
             List<Cat> prizeResultList = prizeDemoService.getList(aId);
+            //redis里面没有值，那么只执行改变奖品表所属活动id恢复为0，不执行添加功能
+            if(prizeResultList.size()==0){
+                startAndEndService.updateStatus(aId);
+            }
             List <PrizeResult> prizeResultlist1=new ArrayList();
 
             for (int i =0 ;i<prizeResultList.size();i++) {
@@ -116,22 +122,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                 prizeResultlist1.add(prizeResult);
             }
             startAndEndMapper.insertPrizeResultNew(prizeResultlist1);
-            Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
-            //该场活动奖品无剩余无该场活动,直接修改活动表status
-            if (myObjectListRedis.isEmpty()) {
-                //修改活动表status为0
-                active.setId(aId);
-                active.setStatus(0);
-                startAndEndMapper.updateActiveliststatus(active);
-                return Response.getInstance(CodeEnum.SUCCESS);
-            }
-            //活动结束后，剩余奖品返回奖品池
-            List prizeIdResidue = new ArrayList(myObjectListRedis);
-            Integer result = startAndEndMapper.updatePrizeByActivityId(prizeIdResidue);
-            active.setId(aId);
-            active.setStatus(0);
-            startAndEndMapper.updateActiveliststatus(active);
-            return Response.getInstance(CodeEnum.SUCCESS);
+            startAndEndService.updateStatus(aId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,5 +148,33 @@ public class StartAndEndServiceImpl implements StartAndEndService {
         prizeResult.setActivityId(aId);
         List<PrizeResult> result = startAndEndMapper.selectActivityResult(prizeResult);
         return Response.getInstance(CodeEnum.SUCCESS, result);
+    }
+
+
+    /**
+     * 查出活动结束后，redis中是否有有剩余奖品
+     *改变活动结束状态，改变剩余奖品所属活动id为0
+     * @param aId 活动id
+     * @return
+     */
+    @Override
+    public Response updateStatus(Integer aId) {
+        Active active= new Active();
+        Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
+        //该场活动奖品无剩余无该场活动,直接修改活动表status
+        if (myObjectListRedis.isEmpty()) {
+            //修改活动表status为0
+            active.setId(aId);
+            active.setStatus(0);
+            startAndEndMapper.updateActiveliststatus(active);
+            return Response.getInstance(CodeEnum.SUCCESS);
+        }
+        //活动结束后，剩余奖品返回奖品池
+        List prizeIdResidue = new ArrayList(myObjectListRedis);
+        Integer result = startAndEndMapper.updatePrizeByActivityId(prizeIdResidue);
+        active.setId(aId);
+        active.setStatus(0);
+        startAndEndMapper.updateActiveliststatus(active);
+        return Response.getInstance(CodeEnum.SUCCESS);
     }
 }
