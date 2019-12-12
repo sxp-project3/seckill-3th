@@ -27,13 +27,13 @@ public interface UserService {
      * 功能描述: <查询可立即参加的活动信息>
      * @Return: com.suixingpay.pojo.Active
      */
-    List<Active> selectActByCity(Active active);
+    List<Active> selectActByCity(Active active, Date date);
 
 
     /**
      * 功能描述: <查询当日可参加的活动信息>
      * @Return: com.suixingpay.pojo.Active
      */
-    List<Active> selectNextByCity(String city, Date nextTime);
+    List<Active> selectNextByCity(String city, Date nextTime, Date date);
 
 }

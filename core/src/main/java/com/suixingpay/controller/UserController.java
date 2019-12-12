@@ -66,11 +66,12 @@ public class UserController {
 
 
         //第二次查询，获取到第一次查询结果做参数
-        // LOGGER.info("城市的参数为[{}]", active.getCity());
+//         LOGGER.info("城市的参数为[{}]", active.getCity());
 
 
         //查询出当前可抢的活动信息
-        List<Active> actLive = userService.selectActByCity(active);
+        Date date = new Date();
+        List<Active> actLive = userService.selectActByCity(active, date);
 
 
         // 获取明天的时间，只获取到第二天的 00：00：00；
@@ -78,7 +79,7 @@ public class UserController {
 
 
         //限制到最近的一个可参加的活动
-        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime);
+        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime, date);
 
 
         // 当前可立即参加的活动为空，也可以继续执行

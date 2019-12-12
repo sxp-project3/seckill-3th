@@ -27,7 +27,7 @@ public interface UserMapper {
      * @Param: [active] 活动类
      * @Return: List<Active>
      */
-    List<Active> selectActByCity(Active active);
+    List<Active> selectActByCity(Active active, Date date);
 
 
     /**
@@ -35,6 +35,6 @@ public interface UserMapper {
      * @Param: [active] 活动类
      * @Return: List<Active>
      */
-    List<Active> selectNextByCity(@Param("city") String city, @Param("nextTime") Date nextTime);
+    List<Active> selectNextByCity(@Param("city") String city, @Param("nextTime") Date nextTime, Date date);
 
 }

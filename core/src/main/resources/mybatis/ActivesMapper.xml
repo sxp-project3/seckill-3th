@@ -11,9 +11,9 @@
         <result property="maxPrizeNum" column="max_prize_num"/>
     </resultMap>
     <select id="selectActByCity" resultMap="results">
-        SELECT  id, city, title, start_time, end_time, max_prize_num from activelist where city = #{city} and end_time > NOW() and NOW() > start_time;
+        SELECT  id, city, title, start_time, end_time, max_prize_num from activelist where city = #{city} and end_time > #{date} and #{date} > start_time;
     </select>
     <select id="selectNextByCity" resultMap="results">
-    SELECT id, city, title, start_time, end_time, max_prize_num from activelist where city = #{city} and start_time > NOW() and  #{nextTime} > end_time ORDER BY start_time LIMIT 1;
+    SELECT id, city, title, start_time, end_time, max_prize_num from activelist where city = #{city} and start_time > #{date} and  #{nextTime} > end_time ORDER BY start_time LIMIT 1;
     </select>
 </mapper>
