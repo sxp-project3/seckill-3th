@@ -13,7 +13,9 @@ public interface StartAndEndService {
 
     Response backGroundEnd(Integer aId);
 
-    void insertUser ();
+    Response updateStatus(Integer aId);
+
+    void insertUser();
 
     Response getActivityResult(Integer aId);
 }

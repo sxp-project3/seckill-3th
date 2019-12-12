@@ -33,6 +33,26 @@ public interface ActiveMapper {
      * @Date: 2019/12/10 9:35
      */
     List<Active> selectAll();
-
+    /**
+     * 功能描述: <根据id获得单条活动信息>
+     * 〈〉
+     * @Param: [id]
+     * @Return: com.suixingpay.pojo.Active
+     * @Author: kongjian
+     * @Date: 2019/12/12 10:52
+     */
     Active selectOneById(int id);
+
+    /**
+     * 功能描述: <根据城市添加整点活动>
+     * 〈〉
+     * @Param: [city]
+     * @Return: int
+     * @Author: luyun
+     * @Date: 2019/12/11 10:35
+     */
+
+    Integer addData(Active active);
+
+
 }
