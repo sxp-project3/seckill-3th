@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
@@ -18,6 +21,7 @@ import java.util.*;
  * @date 2019/12/9 17:04
  */
 @Service
+@Validated
 public class StartAndEndServiceImpl implements StartAndEndService {
     @Autowired
     private StartAndEndMapper startAndEndMapper;
@@ -41,10 +45,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      */
     @Override
     @Transactional
-    public Response backGroundStart(Integer aId) {
-        if (aId == null) {
-            return Response.getInstance(CodeEnum.FAIL, "未传参数！");
-        }
+    public Response backGroundStart(@Valid @NotNull(message = "活动 id 为空！") Integer aId) {
         Active active = new Active();
         List<Active> activeList = startAndEndMapper.selectActiveByAid(aId);
         List<Integer> prizeIdList = new ArrayList<Integer>();
@@ -96,7 +97,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      */
     @Override
     @Transactional
-    public Response backGroundEnd(Integer aId) {
+    public Response backGroundEnd(@Valid @NotNull(message = "活动 id 为空！") Integer aId) {
 
         try {
             if (aId == null) {

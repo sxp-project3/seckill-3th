@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +104,7 @@ public class ActiveListController {
                 result.put("提示信息", "添加成功");
                 return Response.getInstance(CodeEnum.SUCCESS, result);
         }catch (Exception e){
-            return globalExceptionHandler.exceptionErrorHandler(e) ;
+            return Response.getInstance(CodeEnum.FAIL,e.getMessage());
         }
     }
     
@@ -126,8 +125,7 @@ public class ActiveListController {
             map.put("list",active1);
             return Response.getInstance(CodeEnum.SUCCESS, map);
         }catch (Exception e){
-
-            return globalExceptionHandler.exceptionErrorHandler(e);
+            return Response.getInstance(CodeEnum.FAIL,e.getMessage());
         }
     }
 
