@@ -251,7 +251,7 @@
   <select id="selectLimit" resultType="Integer" parameterType="com.suixingpay.pojo.Dog">
     select id
     from prize
-    where territory=#{territory} limit 0,#{data}
+    where activity_id=0 and territory=#{territory} limit 0,#{data}
   </select>
 
 </mapper>

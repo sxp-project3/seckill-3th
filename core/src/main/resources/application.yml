@@ -1,5 +1,8 @@
 server:
   port: 8080
+  tomcat:
+    max-connections: 10000
+    max-threads: 500
 
 # mybatis 基本配置
 mybatis:
@@ -32,7 +35,7 @@ spring:
 
   # Redis 配置
   redis:
-    host: 172.16.41.67
+    host: 172.16.41.92
     port: 6379
     pool:
       maxWait: 1500

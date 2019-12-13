@@ -1,9 +1,8 @@
 package com.suixingpay.pojo;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-@Service
+/**
+ * @author hyx
+ */
 
 public class Prize {
     private Integer id;

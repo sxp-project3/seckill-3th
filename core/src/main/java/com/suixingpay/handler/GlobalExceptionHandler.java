@@ -25,4 +25,13 @@ public class GlobalExceptionHandler {
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.FAIL, result);
         return response;
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public Response runningExceptionErrorHandler(RuntimeException e) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("message", e.getMessage());
+        Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.FAIL, result);
+        return response;
+    }
 }

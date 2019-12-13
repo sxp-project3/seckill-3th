@@ -1,5 +1,9 @@
 package com.suixingpay.service;
 
+/**
+ * @author hyx
+ */
+
 import com.suixingpay.mapper.PrizeMapper;
 import com.suixingpay.pojo.Dog;
 import com.suixingpay.pojo.Prize;

@@ -66,11 +66,15 @@ public class UserController {
 
 
         //第二次查询，获取到第一次查询结果做参数
-        // LOGGER.info("城市的参数为[{}]", active.getCity());
+//         LOGGER.info("城市的参数为[{}]", active.getCity());
+
+
+      //获取系统当前时间做查询参数
+        Date date = new Date();
 
 
         //查询出当前可抢的活动信息
-        List<Active> actLive = userService.selectActByCity(active);
+        List<Active> actLive = userService.selectActByCity(active.getCity(), date);
 
 
         // 获取明天的时间，只获取到第二天的 00：00：00；
@@ -78,7 +82,7 @@ public class UserController {
 
 
         //限制到最近的一个可参加的活动
-        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime);
+        List<Active> actNext = userService.selectNextByCity(active.getCity(), nextTime, date);
 
 
         // 当前可立即参加的活动为空，也可以继续执行
@@ -113,7 +117,7 @@ public class UserController {
 
         //获取系统当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = sdf.format(new Date());
+        String str = sdf.format(date);
         result.put("date", str);
         //将所有结果全部返回
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.SUCCESS, result);

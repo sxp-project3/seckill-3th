@@ -1,5 +1,8 @@
 package com.suixingpay.controller;
 
+/**
+ * @author hyx
+ */
 
 import com.suixingpay.pojo.Dog;
 import com.suixingpay.pojo.Prize;
