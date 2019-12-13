@@ -5,11 +5,16 @@ import com.suixingpay.mapper.PrizeMapper;
 import com.suixingpay.mapper.StartAndEndMapper;
 import com.suixingpay.pojo.*;
 import com.suixingpay.response.Response;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
@@ -40,10 +45,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
     @Override
     @Transactional
     public Response backGroundStart(Integer aId) {
-        if (aId == null) {
-            return Response.getInstance(CodeEnum.FAIL, "未传参数！");
-        }
-        Active active= new Active();
+        Active active = new Active();
         List<Active> activeList = startAndEndMapper.selectActiveByAid(aId);
         List<Integer> prizeIdList = new ArrayList<Integer>();
         Integer prizeNum = activeList.get(0).getMaxPrizeNum();
@@ -94,47 +96,41 @@ public class StartAndEndServiceImpl implements StartAndEndService {
      */
     @Override
     @Transactional
-    public Response backGroundEnd(Integer aId) {
+    public Response backGroundEnd( Integer aId) {
 
         try {
             if (aId == null) {
                 return Response.getInstance(CodeEnum.FAIL, "未传参数！");
             }
-            Active active= new Active();
-            List prizeResultList = prizeDemoService.getList(aId);
-            PrizeResult prizeResult = new PrizeResult();
-            Iterator it = prizeResultList.iterator();
-            while (it.hasNext()) {
-                Date date = new Date();
-                Cat cat = (Cat) it.next();
-                prizeResult.setPrizeTime(cat.getGet_prize_time());
-                prizeResult.setActivityId(aId);
-                prizeResult.setManageId(cat.getManager_id());
-                prizeResult.setPrizeId(cat.getPrize_id());
-                prizeResult.setCreateTime(date);
-                startAndEndMapper.insertPrizeResult(prizeResult);
+            //Active active= new Active();
+            //获取redis里面的获奖结果
+            List<Cat> prizeResultList = prizeDemoService.getList(aId);
+            //redis里面没有值，那么只执行改变奖品表所属活动id恢复为0，不执行添加功能
+            if (prizeResultList.size() == 0) {
+                updateStatus(aId);
+            } else {
+                List<PrizeResult> prizeResultlist1 = new ArrayList();
+
+                for (int i = 0; i < prizeResultList.size(); i++) {
+                    Cat cat = prizeResultList.get(i);
+                    PrizeResult prizeResult = new PrizeResult();
+                    prizeResult.setPrizeTime(cat.getGet_prize_time());
+                    prizeResult.setActivityId(aId);
+                    prizeResult.setManageId(cat.getManager_id());
+                    prizeResult.setPrizeId(cat.getPrize_id());
+                    prizeResult.setCreateTime(new Date());
+                    prizeResultlist1.add(prizeResult);
+                }
+                startAndEndMapper.insertPrizeResultNew(prizeResultlist1);
+                updateStatus(aId);
             }
-            Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
-            //该场活动奖品无剩余无该场活动,直接修改活动表status
-            if (myObjectListRedis.isEmpty()) {
-                //修改活动表status为0
-                active.setId(aId);
-                active.setStatus(0);
-                startAndEndMapper.updateActiveliststatus(active);
-                return Response.getInstance(CodeEnum.SUCCESS);
-            }
-            //活动结束后，剩余奖品返回奖品池
-            List prizeIdResidue = new ArrayList(myObjectListRedis);
-            Integer result = startAndEndMapper.updatePrizeByActivityId(prizeIdResidue);
-            active.setId(aId);
-            active.setStatus(0);
-            startAndEndMapper.updateActiveliststatus(active);
-            return Response.getInstance(CodeEnum.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
+            return Response.getInstance(CodeEnum.FAIL);
         }
-        return Response.getInstance(CodeEnum.FAIL);
+        return Response.getInstance(CodeEnum.SUCCESS);
     }
+
 
     //循环插入数据到用户表，不作为功能性
     @Override
@@ -146,8 +142,8 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             user.setUserName("shandong" + i);
             startAndEndMapper.insertUser(user);
         }
-
     }
+
 
     @Override
     public Response getActivityResult(Integer aId) {
@@ -155,5 +151,34 @@ public class StartAndEndServiceImpl implements StartAndEndService {
         prizeResult.setActivityId(aId);
         List<PrizeResult> result = startAndEndMapper.selectActivityResult(prizeResult);
         return Response.getInstance(CodeEnum.SUCCESS, result);
+    }
+
+
+    /**
+     * 查出活动结束后，redis中是否有有剩余奖品
+     * 改变活动结束状态，改变剩余奖品所属活动id为0
+     *
+     * @param aId 活动id
+     * @return
+     */
+    @Override
+    public Response updateStatus(Integer aId) {
+        Active active = new Active();
+        Set myObjectListRedis = redisTemplate.opsForSet().members("prize:pool" + aId);
+        //该场活动奖品无剩余无该场活动,直接修改活动表status
+        if (myObjectListRedis.isEmpty()) {
+            //修改活动表status为0
+            active.setId(aId);
+            active.setStatus(0);
+            startAndEndMapper.updateActiveliststatus(active);
+            return Response.getInstance(CodeEnum.SUCCESS);
+        }
+        //活动结束后，剩余奖品返回奖品池
+        List prizeIdResidue = new ArrayList(myObjectListRedis);
+        Integer result = startAndEndMapper.updatePrizeByActivityId(prizeIdResidue);
+        active.setId(aId);
+        active.setStatus(0);
+        startAndEndMapper.updateActiveliststatus(active);
+        return Response.getInstance(CodeEnum.SUCCESS);
     }
 }

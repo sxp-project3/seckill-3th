@@ -1,9 +1,18 @@
 package com.suixingpay.util;
 
+import com.suixingpay.pojo.Active;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * ClassName MiaoShaUtil
  *
- * @Description TODO
+ * @Description 工具类
  * @Author luyun
  * @Date 2019/12/9 15:14
  * @Version 1.0
@@ -32,6 +41,20 @@ public class MiaoShaUtil {
         } else {
             return true;
         }
+    }
+
+
+    /**
+     * 功能描述: <获取月份>
+     * 〈〉
+     * @Param: [date]
+     * @Return: void
+     * @Author: luyun
+     * @Date: 2019/12/11 11:28
+     */
+    public static String   getMonth(Date date){
+        DateFormat dateFormat=DateFormat.getDateInstance();
+        return dateFormat.format(date);
     }
 
 }

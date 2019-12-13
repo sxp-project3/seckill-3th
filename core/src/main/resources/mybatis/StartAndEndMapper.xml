@@ -55,7 +55,7 @@
     <update id="updateActiveliststatus" parameterType="com.suixingpay.pojo.Active">
         update `activelist`
         set
-        status = #{status}
+            status = #{status}
         where id = #{id}
     </update>
     <!--修改奖品表activity_id字段为0-->
@@ -117,8 +117,23 @@
 
         </trim>
     </insert>
-    <insert id="insertUser" parameterType="com.suixingpay.pojo.Users"
-    >
+    <!-- 动态SQL ：插入一条得奖结果表优化版 -->
+    <insert id="insertPrizeResultNew" parameterType="list">
+        insert into seckill_winning_results
+        (
+        activity_id,
+        manage_id,
+        prize_time,
+        create_time,
+        prize_id
+        )
+
+        values
+        <foreach collection="prizeResultlist1" index="index" separator="," item="item">
+            (#{item.activityId},#{item.manageId},#{item.prizeTime},#{item.createTime},#{item.prizeId})
+        </foreach>
+    </insert>
+    <insert id="insertUser" parameterType="com.suixingpay.pojo.Users">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -144,7 +159,7 @@
         </trim>
     </insert>
     <select id="selectActivityResult" parameterType="com.suixingpay.pojo.PrizeResult" resultMap="PrizeResult">
-        select activity_id, manage_id, prize_id, prize_time
+        select id, status, activity_id, manage_id, prize_id, prize_time
         from `seckill_winning_results`
         where activity_id=#{activityId,jdbcType=INTEGER}
     </select>

@@ -9,7 +9,7 @@ public enum CodeEnum {
 
     SUCCESS("0", "成功"),
     FAIL("-1", "服务器异常"),
-    NOTLOGING("401","未登录");
+    NOLOGGING("401","未登录");
 
     private String code;
     private String msg;

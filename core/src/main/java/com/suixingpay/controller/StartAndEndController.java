@@ -28,7 +28,8 @@ public class StartAndEndController {
     将一定数量的沉默用户插入到redis,并且修改奖品表所参与活动id字段为当前活动id*/
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     public Response start(@RequestBody Active active) {
-        return startAndEndService.backGroundStart(active.getId());
+        Integer id = active.getId();
+        return startAndEndService.backGroundStart(id);
 
     }
 
@@ -47,9 +48,11 @@ public class StartAndEndController {
         startAndEndService.insertUser();
     }
 
-//    @RequestMapping(value = "activity-result", method = RequestMethod.POST)
-//    public Response activityResult(@RequestBody Map<String, String> param) {
-//        return
-//    }
+    @RequestMapping(value = "/activity-result", method = RequestMethod.POST)
+    public Response activityResult(@RequestBody Map<String, String> param) {
+        String activityStringId = param.get("activityId");
+        Integer activityId = Integer.parseInt(activityStringId);
+        return startAndEndService.getActivityResult(activityId);
+    }
 
 }
