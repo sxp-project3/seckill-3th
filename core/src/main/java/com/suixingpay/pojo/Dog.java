@@ -1,5 +1,8 @@
 package com.suixingpay.pojo;
 
+/**
+ * @author hyx
+ */
 public class Dog {
 
     private Integer Data;

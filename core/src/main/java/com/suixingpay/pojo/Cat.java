@@ -1,5 +1,8 @@
 package com.suixingpay.pojo;
 
+/**
+ * @author hyx
+ */
 public class Cat {
 
     private int Manager_id;
