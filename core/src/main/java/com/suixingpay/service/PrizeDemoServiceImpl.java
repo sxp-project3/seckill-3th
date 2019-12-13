@@ -27,8 +27,6 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
     // 中奖名单
     private static final String PRIZE_MEMBER_LIST = "prize:member:list";
 
-    private Cat cat;
-
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -60,13 +58,16 @@ public class PrizeDemoServiceImpl implements PrizeDemoService {
         if (endAt < nowAt) {
             throw new RuntimeException("秒杀活动已结束，请关注下次活动。");
         }
-        // 判断活动剩余奖品数量
-        if (redisTemplate.opsForSet().members(prize_pool_key).size() == 0) {
-            throw new RuntimeException("秒杀奖品已被抢完，请下次再来。");
+        if (active.getStatus() != 1) {
+            throw new RuntimeException("活动已下线，请下次再来。");
         }
         // 判断用户是否参与过抽奖
         if (redisTemplate.opsForHash().hasKey(prize_member_list, String.valueOf(manager.getId()))) {
             throw new RuntimeException("您已经抢到了奖品，请等待app消息通知。");
+        }
+        // 判断活动剩余奖品数量
+        if (redisTemplate.opsForSet().members(prize_pool_key).size() == 0) {
+            throw new RuntimeException("秒杀奖品已被抢完，请下次再来。");
         }
 
         // 从奖池获取奖品
