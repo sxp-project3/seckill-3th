@@ -16,9 +16,9 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 public interface StartAndEndService {
-    Response backGroundStart(@NotBlank(message = "活动 id 为空！")Integer aId);
+    Response backGroundStart(@NotNull(message = "活动 id 为空！")Integer aId);
 
-    Response backGroundEnd(@NotBlank(message = "活动 id 为空！")Integer aId);
+    Response backGroundEnd(@NotNull(message = "活动 id 为空！")Integer aId);
 
     Response updateStatus(Integer aId);
 
