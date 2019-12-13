@@ -1,5 +1,8 @@
 server:
   port: 8080
+  tomcat:
+    max-connections: 10000
+    max-threads: 500
 
 # mybatis 基本配置
 mybatis:
