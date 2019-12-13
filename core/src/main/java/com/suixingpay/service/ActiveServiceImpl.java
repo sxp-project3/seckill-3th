@@ -93,7 +93,7 @@ public class ActiveServiceImpl implements ActiveService {
                 Date endTime=new Date(active.getStartTime().getTime()+180000);
                 active.setEndTime(endTime);
                 active.setCity(city);
-                active.setTitle(active.getCity()+":"+String.valueOf(active.getStartTime() ));
+                active.setTitle(active.getCity()+":"+active.getStartTime());
                 active.setMaxPrizeNum(500);
                 activeMapper.addData(active);
             }

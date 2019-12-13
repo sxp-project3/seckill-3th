@@ -80,8 +80,8 @@ public class ActiveListController {
                 return Response.getInstance(CodeEnum.FAIL,result);
             }
             if (endTime==null){
-                result.put("提示信息","结束时间不能为空");
-                return Response.getInstance(CodeEnum.FAIL,result);
+                Date end=new Date(startTime.getTime()+180000);
+                active.setEndTime(end);
             }
             if(startTime.equals(endTime)){
                 result.put("提示信息","开始结束时间不能相同");

@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Response exceptionErrorHandler(Exception e) {
         Map<String, Object> result = new HashMap<>();
-        result.put("msg", e.getMessage());
+        result. put("msg", e.getMessage());
         Response<Map<String, HashMap>> response = Response.getInstance(CodeEnum.FAIL, result);
         return response;
     }

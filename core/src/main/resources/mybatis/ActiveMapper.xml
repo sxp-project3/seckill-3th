@@ -20,8 +20,9 @@
 
     <insert id="addData" parameterType="com.suixingpay.pojo.Active" useGeneratedKeys="true" keyProperty="id">
         insert  into activeList (title,status,city,start_time,end_time,max_prize_num)
-        values (#{title},#{status},#{city},#{startTime},#{endTime},#{maxPrizeNum})
+        values (#{  title},#{status},#{city},#{startTime},#{endTime},#{maxPrizeNum})
     </insert>
+
    <select id="selectAll"  resultMap="activeMap" >
        select id,title,status,city,start_time,end_time,max_prize_num from activeList
    </select>
