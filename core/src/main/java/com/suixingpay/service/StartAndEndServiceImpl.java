@@ -26,8 +26,6 @@ public class StartAndEndServiceImpl implements StartAndEndService {
     @Autowired
     private PrizeDemoService prizeDemoService;
     @Autowired
-    private StartAndEndService startAndEndService;
-    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
 
@@ -107,7 +105,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
             List<Cat> prizeResultList = prizeDemoService.getList(aId);
             //redis里面没有值，那么只执行改变奖品表所属活动id恢复为0，不执行添加功能
             if (prizeResultList.size() == 0) {
-                startAndEndService.updateStatus(aId);
+               updateStatus(aId);
             } else {
                 List<PrizeResult> prizeResultlist1 = new ArrayList();
 
@@ -122,7 +120,7 @@ public class StartAndEndServiceImpl implements StartAndEndService {
                     prizeResultlist1.add(prizeResult);
                 }
                 startAndEndMapper.insertPrizeResultNew(prizeResultlist1);
-                startAndEndService.updateStatus(aId);
+                updateStatus(aId);
             }
         } catch (Exception e) {
             e.printStackTrace();
